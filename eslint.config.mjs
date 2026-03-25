@@ -88,13 +88,13 @@ export default [{
 
     "@angular-eslint/directive-selector": ["error", {
       type: "attribute",
-      prefix: "luftborn",
+      prefix: "lb",
       style: "camelCase",
     }],
 
     "@angular-eslint/component-selector": ["error", {
       type: ["element", "attribute"],
-      prefix: "luftborn",
+      prefix: "lb",
       style: "kebab-case",
     }],
 

@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { SplashScreenComponent } from './layout/loaders/splash-screen/splash-screen.component';
 
 @Component({
-  selector: 'luftborn-root',
-  imports: [RouterOutlet],
+  selector: 'lb-root',
+  imports: [RouterOutlet, ToastModule, SplashScreenComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('luftborn-task');
-}
+export class App {}
