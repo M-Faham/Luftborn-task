@@ -4,7 +4,7 @@ import js from "@eslint/js";
 import htmlEslint from "@html-eslint/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import html from "eslint-plugin-html";
-import importPlugin from "eslint-plugin-import";
+import importPlugin from "eslint-plugin-import-x";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -32,7 +32,6 @@ export default [{
   "plugin:@angular-eslint/template/process-inline-templates",
   "plugin:@typescript-eslint/recommended",
   "plugin:prettier/recommended",
-  "plugin:import/recommended",
 )).map(config => ({
   ...config,
   files: ["**/*.ts"],
