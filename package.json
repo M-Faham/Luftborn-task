@@ -9,7 +9,8 @@
     "test": "ng test",
     "serve:ssr:luftborn-task": "node dist/luftborn-task/server/server.mjs",
     "prepare": "husky",
-    "lint-fix": "npx eslint \"./projects/**/*.{js,ts,html}\" --quiet --fix"
+    "lint-fix": "npx eslint \"./projects/**/*.{js,ts,html}\" --quiet --fix",
+    "server": "json-server --watch task-details/data-fetching/db.json --port 3000"
   },
   "private": true,
   "packageManager": "npm@10.9.2",
@@ -55,6 +56,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
     "jsdom": "^28.0.0",
+    "json-server": "^1.0.0-beta.15",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.12",
