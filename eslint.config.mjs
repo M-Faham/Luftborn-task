@@ -4,7 +4,7 @@ import js from "@eslint/js";
 import htmlEslint from "@html-eslint/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import html from "eslint-plugin-html";
-import importPlugin from "eslint-plugin-import-x";
+import importX from "eslint-plugin-import-x";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -41,7 +41,7 @@ export default [{
   plugins: {
     "@typescript-eslint": fixupPluginRules(typescriptEslint),
     "@html-eslint": htmlEslint,
-    "import": fixupPluginRules(importPlugin),
+    "import-x": importX,
   },
 
   languageOptions: {
@@ -51,21 +51,6 @@ export default [{
     parserOptions: {
       project: ["tsconfig.app.json", "tsconfig.spec.json"],
       createDefaultProgram: true,
-    },
-  },
-
-  settings: {
-    "import/resolver": {
-      typescript: {
-        alwaysTryTypes: true,
-        project: ["tsconfig.app.json", "tsconfig.spec.json"],
-      },
-      node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      },
-    },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
     },
   },
 
@@ -109,13 +94,13 @@ export default [{
     "@typescript-eslint/no-inferrable-types": "warn",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/prefer-includes": "warn",
-    "import/no-duplicates": "error",
-    "import/no-cycle": ["error", {
+    "import-x/no-duplicates": "error",
+    "import-x/no-cycle": ["error", {
       maxDepth: 10,
       ignoreExternal: true,
     }],
-    "import/no-unresolved": "off",
-    "import/named": "off",
+    "import-x/no-unresolved": "off",
+    "import-x/named": "off",
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-unused-vars": "off",
     "@angular-eslint/no-output-on-prefix": "warn",
