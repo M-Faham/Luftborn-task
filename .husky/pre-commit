@@ -1,0 +1,11 @@
+check_no_push() {
+  local pushStopper="NO PUSH"
+  if files=$(git diff --cached --name-only -- '*.ts' '*.html' | xargs grep -l "$pushStopper" 2>/dev/null); then
+    echo "❌ Commit aborted: '$pushStopper' marker found in staged files:"
+    echo "$files"
+    exit 1
+  fi
+}
+
+check_no_push
+npx lint-staged
