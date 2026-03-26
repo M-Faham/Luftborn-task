@@ -18,7 +18,7 @@ import { SplashScreenService } from './services/splash-screen.service';
     ),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: '/i18n/',
+        prefix: 'i18n/',
         suffix: '.json',
       }),
       fallbackLang: 'en',
