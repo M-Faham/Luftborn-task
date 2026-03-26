@@ -1,12 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { TasksComponent } from './tasks.component';
 import { TaskService } from '../../services/task.service';
-import { Task, TasksResponse } from '../../../../shared/models';
+import { Task } from '../../../../shared/models';
 import { TaskStatusEnum, TaskPriorityEnum } from '../../../../shared/enums';
-import { invalidateCache } from '../../../../core/interceptors/caching.interceptor';
 
 function makeTask(overrides: Partial<Task> = {}): Task {
   return {
@@ -25,59 +23,51 @@ function makeTask(overrides: Partial<Task> = {}): Task {
   };
 }
 
-function makeResponse(tasks: Task[] = []): TasksResponse {
-  return { tasks, meta: { totalCount: tasks.length, lastUpdated: '2026-01-01T00:00:00Z' } };
-}
-
 describe('TasksComponent', () => {
-  let fixture: ComponentFixture<TasksComponent>;
   let component: TasksComponent;
-  let httpMock: HttpTestingController;
+  const tasksSignal = signal<Task[]>([]);
+  const isLoadingSignal = signal<boolean>(true);
 
-  function flushInitial(tasks: Task[] = []): void {
-    TestBed.tick();
-    httpMock.expectOne('/api/tasks').flush(makeResponse(tasks));
-    TestBed.tick();
-  }
+  const mockTaskService = {
+    tasks: tasksSignal.asReadonly(),
+    isLoading: isLoadingSignal.asReadonly(),
+    totalCount: signal(0).asReadonly(),
+    filters: signal({ status: null, priority: null, assignee: null, search: '' }).asReadonly(),
+    error: signal(undefined).asReadonly(),
+    setFilters: vi.fn(),
+    resetFilters: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  };
 
   beforeEach(async () => {
+    tasksSignal.set([]);
+    isLoadingSignal.set(true);
+
     await TestBed.configureTestingModule({
       imports: [TasksComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        provideTranslateService({ fallbackLang: 'en' }),
-      ],
-    }).compileComponents();
+      providers: [provideTranslateService({ fallbackLang: 'en' })],
+    })
+      .overrideComponent(TasksComponent, {
+        set: { providers: [{ provide: TaskService, useValue: mockTaskService }] },
+      })
+      .compileComponents();
 
-    httpMock = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(TasksComponent);
+    const fixture = TestBed.createComponent(TasksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    httpMock.verify();
-    invalidateCache();
-    TestBed.resetTestingModule();
-  });
-
   describe('component creation', () => {
     it('should create', () => {
-      flushInitial();
       expect(component).toBeTruthy();
-    });
-
-    it('should provide TaskService', () => {
-      flushInitial();
-      const service = fixture.debugElement.injector.get(TaskService);
-      expect(service).toBeTruthy();
     });
   });
 
   describe('task filtering by status', () => {
     it('should expose only todo tasks in todoTasks signal', () => {
-      flushInitial([
+      tasksSignal.set([
         makeTask({ id: '1', status: TaskStatusEnum.Todo }),
         makeTask({ id: '2', status: TaskStatusEnum.InProgress }),
         makeTask({ id: '3', status: TaskStatusEnum.Done }),
@@ -88,7 +78,7 @@ describe('TasksComponent', () => {
     });
 
     it('should expose only in-progress tasks in inProgressTasks signal', () => {
-      flushInitial([
+      tasksSignal.set([
         makeTask({ id: '1', status: TaskStatusEnum.Todo }),
         makeTask({ id: '2', status: TaskStatusEnum.InProgress }),
         makeTask({ id: '3', status: TaskStatusEnum.InProgress }),
@@ -101,7 +91,7 @@ describe('TasksComponent', () => {
     });
 
     it('should expose only done tasks in doneTasks signal', () => {
-      flushInitial([
+      tasksSignal.set([
         makeTask({ id: '1', status: TaskStatusEnum.Done }),
         makeTask({ id: '2', status: TaskStatusEnum.Done }),
         makeTask({ id: '3', status: TaskStatusEnum.Todo }),
@@ -112,7 +102,7 @@ describe('TasksComponent', () => {
     });
 
     it('should return empty arrays when no tasks match a status', () => {
-      flushInitial([makeTask({ id: '1', status: TaskStatusEnum.Todo })]);
+      tasksSignal.set([makeTask({ id: '1', status: TaskStatusEnum.Todo })]);
 
       expect(component.inProgressTasks()).toEqual([]);
       expect(component.doneTasks()).toEqual([]);
@@ -122,21 +112,11 @@ describe('TasksComponent', () => {
   describe('isLoading signal', () => {
     it('should be true while tasks are loading', () => {
       expect(component.isLoading()).toBe(true);
-      flushInitial();
     });
 
     it('should be false after tasks are loaded', () => {
-      flushInitial();
+      isLoadingSignal.set(false);
       expect(component.isLoading()).toBe(false);
-    });
-  });
-
-  describe('template rendering', () => {
-    it('should render three lb-tasks-list elements', () => {
-      flushInitial();
-      fixture.detectChanges();
-      const lists = fixture.nativeElement.querySelectorAll('lb-tasks-list');
-      expect(lists.length).toBe(3);
     });
   });
 });

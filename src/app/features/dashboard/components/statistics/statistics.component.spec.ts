@@ -1,34 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { StatisticsComponent } from './statistics.component';
 import { StatisticsService } from '../../services/statistics.service';
-import { invalidateCache } from '../../../../core/interceptors/caching.interceptor';
 
 describe('StatisticsComponent', () => {
-  let fixture: ComponentFixture<StatisticsComponent>;
   let component: StatisticsComponent;
-  let httpMock: HttpTestingController;
+
+  const mockStatisticsService = {
+    statistics: signal([]).asReadonly(),
+    isLoading: signal(false).asReadonly(),
+    error: signal(undefined).asReadonly(),
+    reload: vi.fn(),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StatisticsComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
-    }).compileComponents();
+    })
+      .overrideComponent(StatisticsComponent, {
+        set: { providers: [{ provide: StatisticsService, useValue: mockStatisticsService }] },
+      })
+      .compileComponents();
 
-    httpMock = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(StatisticsComponent);
+    const fixture = TestBed.createComponent(StatisticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    httpMock
-      .expectOne('/api/statistics')
-      .flush({ statistics: [], lastUpdated: '2026-01-01T00:00:00Z' });
-    httpMock.verify();
-    invalidateCache();
-    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
@@ -36,6 +32,7 @@ describe('StatisticsComponent', () => {
   });
 
   it('should provide StatisticsService', () => {
+    const fixture = TestBed.createComponent(StatisticsComponent);
     const service = fixture.debugElement.injector.get(StatisticsService);
     expect(service).toBeTruthy();
   });

@@ -5,7 +5,7 @@ import { TaskStatusEnum } from '../../../../shared/enums';
 
 @Component({
   selector: 'lb-tasks',
-  imports: [TaskCardComponent, TasksListComponent],
+  imports: [TasksListComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

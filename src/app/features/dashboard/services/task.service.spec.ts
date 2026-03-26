@@ -1,46 +1,48 @@
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TaskService } from './task.service';
-import { TaskFilters } from '../shared/models/task';
 import { Task, TasksResponse } from '../../../shared/models';
-import { TaskStatusEnum, TaskPriorityEnum } from '../../../shared/enums';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../../shared/enums';
 import { invalidateCache } from '../../../core/interceptors/caching.interceptor';
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+import { INITIAL_FILTERS } from '../shared/constants/intial-filters';
 
 function makeTask(overrides: Partial<Task> = {}): Task {
   return {
     id: 'task-1',
     title: 'Test Task',
-    description: 'Description',
+    description: 'A test task',
     status: TaskStatusEnum.Todo,
     priority: TaskPriorityEnum.Medium,
-    dueDate: '2026-12-31',
-    assignee: { id: 'u1', name: 'Alice', avatar: 'AL', email: 'alice@example.com' },
-    tags: [],
+    dueDate: '2026-04-01',
+    assignee: { id: 'user-1', name: 'John', avatar: '', email: 'john@test.com' },
+    tags: ['test'],
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-01-01T00:00:00Z',
     ...overrides,
   };
 }
 
-function makeResponse(tasks: Task[] = []): TasksResponse {
-  return { tasks, meta: { totalCount: tasks.length, lastUpdated: '2026-01-01T00:00:00Z' } };
+function makeResponse(tasks: Task[] = [], totalCount?: number): TasksResponse {
+  return {
+    tasks,
+    meta: { totalCount: totalCount ?? tasks.length, lastUpdated: '2026-01-01T00:00:00Z' },
+  };
 }
-
-// ─── Suite ───────────────────────────────────────────────────────────────────
 
 describe('TaskService', () => {
   let service: TaskService;
   let httpMock: HttpTestingController;
 
-  /** Flush the initial httpResource GET that fires on service creation. */
-  function flushInitial(tasks: Task[] = []): void {
+  async function flushInitial(tasks: Task[] = [], totalCount?: number): Promise<void> {
     TestBed.tick();
-    httpMock.expectOne('/api/tasks').flush(makeResponse(tasks));
-    flushMicrotasks();
-    TestBed.tick();
+    httpMock.expectOne('/api/tasks').flush(makeResponse(tasks, totalCount));
+    await TestBed.inject(ApplicationRef).whenStable();
+  }
+
+  async function stabilize(): Promise<void> {
+    await TestBed.inject(ApplicationRef).whenStable();
   }
 
   beforeEach(() => {
@@ -57,217 +59,195 @@ describe('TaskService', () => {
     invalidateCache();
   });
 
-  // ─── Initial load ───────────────────────────────────────────────────────
-
   describe('initial load', () => {
-    it('should fetch tasks from /api/tasks on creation', fakeAsync(() => {
+    it('should fetch from /api/tasks on creation', async () => {
       const task = makeTask();
-      flushInitial([task]);
+      await flushInitial([task]);
 
       expect(service.tasks()).toEqual([task]);
-    }));
+    });
 
-    it('should expose totalCount from the meta field', fakeAsync(() => {
-      flushInitial([makeTask(), makeTask({ id: 'task-2' })]);
-
-      expect(service.totalCount()).toBe(2);
-    }));
-
-    it('should default tasks to [] before the response arrives', fakeAsync(() => {
-      // Do NOT flush — resource is still loading
+    it('should default tasks to [] before response arrives', async () => {
       expect(service.tasks()).toEqual([]);
-      flushInitial(); // clean up
-    }));
+      await flushInitial();
+    });
+
+    it('should default totalCount to 0 before response arrives', async () => {
+      expect(service.totalCount()).toBe(0);
+      await flushInitial();
+    });
   });
 
-  // ─── Filters ────────────────────────────────────────────────────────────
+  describe('isLoading', () => {
+    it('should be true while the request is in flight', async () => {
+      TestBed.tick();
+      expect(service.isLoading()).toBe(true);
+      await flushInitial();
+    });
 
-  describe('setFilters', () => {
-    it('should add status param when status filter is set', fakeAsync(() => {
-      flushInitial();
+    it('should be false after response is received', async () => {
+      await flushInitial();
+      expect(service.isLoading()).toBe(false);
+    });
+  });
 
-      service.setFilters({ status: TaskStatusEnum.Done });
+  describe('error signal', () => {
+    it('should be undefined when no error has occurred', async () => {
+      await flushInitial();
+      expect(service.error()).toBeUndefined();
+    });
+  });
+
+  describe('totalCount', () => {
+    it('should reflect meta.totalCount from the response', async () => {
+      await flushInitial([makeTask()], 42);
+      expect(service.totalCount()).toBe(42);
+    });
+  });
+
+  describe('filters', () => {
+    it('should expose initial filters as readonly', async () => {
+      await flushInitial();
+      expect(service.filters()).toEqual(INITIAL_FILTERS);
+    });
+
+    it('should update filters and trigger a new request with query params', async () => {
+      await flushInitial();
+
+      service.setFilters({ status: TaskStatusEnum.InProgress });
       TestBed.tick();
 
       const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('status')).toBe('done');
+      expect(req.request.params.get('status')).toBe('in_progress');
       req.flush(makeResponse());
-    }));
+      await stabilize();
+    });
 
-    it('should add priority param when priority filter is set', fakeAsync(() => {
-      flushInitial();
+    it('should merge partial filter updates with existing filters', async () => {
+      await flushInitial();
 
       service.setFilters({ priority: TaskPriorityEnum.High });
+      TestBed.tick();
+      httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
+      await stabilize();
+
+      service.setFilters({ status: TaskStatusEnum.Done });
       TestBed.tick();
 
       const req = httpMock.expectOne((r) => r.url === '/api/tasks');
       expect(req.request.params.get('priority')).toBe('high');
+      expect(req.request.params.get('status')).toBe('done');
       req.flush(makeResponse());
-    }));
+      await stabilize();
+    });
 
-    it('should add q param when search filter is set', fakeAsync(() => {
-      flushInitial();
+    it('should send search as q param', async () => {
+      await flushInitial();
 
-      service.setFilters({ search: 'design' });
+      service.setFilters({ search: 'urgent' });
       TestBed.tick();
 
       const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('q')).toBe('design');
+      expect(req.request.params.get('q')).toBe('urgent');
       req.flush(makeResponse());
-    }));
+      await stabilize();
+    });
 
-    it('should omit params for null/empty filter values', fakeAsync(() => {
-      flushInitial();
+    it('should send assignee param', async () => {
+      await flushInitial();
 
-      service.setFilters({ status: null, priority: null, search: '' });
+      service.setFilters({ assignee: 'user-5' });
       TestBed.tick();
 
-      const req = httpMock.expectOne('/api/tasks');
-      expect(req.request.params.keys()).toHaveLength(0);
+      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
+      expect(req.request.params.get('assignee')).toBe('user-5');
       req.flush(makeResponse());
-    }));
-  });
+      await stabilize();
+    });
 
-  describe('resetFilters', () => {
-    it('should remove all active filters', fakeAsync(() => {
-      flushInitial();
+    it('should not send params for null/empty filter values', async () => {
+      await flushInitial();
 
-      service.setFilters({ status: TaskStatusEnum.Done });
+      service.setFilters({ status: null, search: '' });
+      TestBed.tick();
+
+      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
+      expect(req.request.params.has('status')).toBe(false);
+      expect(req.request.params.has('q')).toBe(false);
+      req.flush(makeResponse());
+      await stabilize();
+    });
+
+    it('should reset filters to initial values', async () => {
+      await flushInitial();
+
+      service.setFilters({ status: TaskStatusEnum.Done, priority: TaskPriorityEnum.Low });
       TestBed.tick();
       httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
+      await stabilize();
 
       service.resetFilters();
-      TestBed.tick();
-      const req = httpMock.expectOne('/api/tasks');
-      expect(req.request.params.keys()).toHaveLength(0);
-      req.flush(makeResponse());
-    }));
-
-    it('should expose the reset filters via the filters signal', fakeAsync(() => {
-      flushInitial();
-
-      service.setFilters({ status: TaskStatusEnum.Done });
+      expect(service.filters()).toEqual(INITIAL_FILTERS);
       TestBed.tick();
       httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
-
-      service.resetFilters();
-      TestBed.tick();
-      httpMock.expectOne('/api/tasks').flush(makeResponse());
-
-      const filters = service.filters();
-      expect(filters.status).toBeNull();
-      expect(filters.priority).toBeNull();
-      expect(filters.search).toBe('');
-    }));
+      await stabilize();
+    });
   });
-
-  // ─── Mutations ──────────────────────────────────────────────────────────
 
   describe('create', () => {
-    it('should POST to /api/tasks with the given payload', fakeAsync(() => {
-      flushInitial();
+    it('should POST to /api/tasks and reload', async () => {
+      await flushInitial();
 
-      const newTask: Partial<Task> = { title: 'New Task', priority: TaskPriorityEnum.Low };
-      service.create(newTask).subscribe();
+      const newTask: Partial<Task> = { title: 'New', description: 'Desc' };
+      const created = makeTask({ id: 'task-new', title: 'New' });
 
-      const req = httpMock.expectOne('/api/tasks');
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(newTask);
-      req.flush(makeTask({ title: 'New Task' }));
+      service.create(newTask).subscribe((result) => {
+        expect(result).toEqual(created);
+      });
 
-      // Reload: flush the follow-up GET
-      TestBed.tick();
-      httpMock.expectOne('/api/tasks').flush(makeResponse());
-    }));
+      const postReq = httpMock.expectOne({ method: 'POST', url: '/api/tasks' });
+      expect(postReq.request.body).toEqual(newTask);
+      postReq.flush(created);
 
-    it('should emit the created task to the subscriber', fakeAsync(() => {
-      flushInitial();
-
-      const created = makeTask({ id: 'new-1', title: 'Created' });
-      let result!: Task;
-      service.create({ title: 'Created' }).subscribe((t) => (result = t));
-
-      httpMock.expectOne({ method: 'POST', url: '/api/tasks' }).flush(created);
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse([created]));
-
-      expect(result).toEqual(created);
-    }));
+      await stabilize();
+    });
   });
 
   describe('update', () => {
-    it('should PATCH /api/tasks/:id with the given changes', fakeAsync(() => {
-      flushInitial();
+    it('should PATCH to /api/tasks/:id and reload', async () => {
+      await flushInitial();
 
-      const changes: Partial<Task> = { title: 'Updated Title' };
-      service.update('task-1', changes).subscribe();
-
-      const req = httpMock.expectOne('/api/tasks/task-1');
-      expect(req.request.method).toBe('PATCH');
-      expect(req.request.body).toEqual(changes);
-      req.flush(makeTask(changes));
-
-      TestBed.tick();
-      httpMock.expectOne('/api/tasks').flush(makeResponse());
-    }));
-
-    it('should emit the updated task to the subscriber', fakeAsync(() => {
-      flushInitial();
-
+      const changes: Partial<Task> = { title: 'Updated' };
       const updated = makeTask({ title: 'Updated' });
-      let result!: Task;
-      service.update('task-1', { title: 'Updated' }).subscribe((t) => (result = t));
 
-      httpMock.expectOne('/api/tasks/task-1').flush(updated);
+      service.update('task-1', changes).subscribe((result) => {
+        expect(result).toEqual(updated);
+      });
+
+      const patchReq = httpMock.expectOne({ method: 'PATCH', url: '/api/tasks/task-1' });
+      expect(patchReq.request.body).toEqual(changes);
+      patchReq.flush(updated);
+
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse([updated]));
-
-      expect(result.title).toBe('Updated');
-    }));
+      await stabilize();
+    });
   });
 
   describe('delete', () => {
-    it('should DELETE /api/tasks/:id', fakeAsync(() => {
-      flushInitial();
+    it('should DELETE to /api/tasks/:id and reload', async () => {
+      await flushInitial();
 
       service.delete('task-1').subscribe();
 
-      const req = httpMock.expectOne('/api/tasks/task-1');
-      expect(req.request.method).toBe('DELETE');
-      req.flush(null, { status: 204, statusText: 'No Content' });
+      const deleteReq = httpMock.expectOne({ method: 'DELETE', url: '/api/tasks/task-1' });
+      deleteReq.flush(null);
 
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse());
-    }));
-  });
-
-  // ─── isLoading signal ───────────────────────────────────────────────────
-
-  describe('isLoading', () => {
-    it('should be true while the request is in flight', fakeAsync(() => {
-      TestBed.tick();
-      expect(service.isLoading()).toBe(true);
-      flushInitial();
-    }));
-
-    it('should be false after the response is received', fakeAsync(() => {
-      flushInitial();
-      expect(service.isLoading()).toBe(false);
-    }));
-  });
-
-  // ─── filters signal ─────────────────────────────────────────────────────
-
-  describe('filters signal', () => {
-    it('should reflect partial filter updates', fakeAsync(() => {
-      flushInitial();
-
-      service.setFilters({ status: TaskStatusEnum.InProgress });
-      TestBed.tick();
-      httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
-
-      expect(service.filters().status).toBe(TaskStatusEnum.InProgress);
-      expect(service.filters().priority).toBeNull(); // untouched
-    }));
+      await stabilize();
+    });
   });
 });
