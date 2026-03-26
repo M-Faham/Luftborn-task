@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
@@ -10,6 +10,7 @@ import { loadingInterceptor } from './interceptors/loading.interceptor';
 import { materialize } from 'rxjs';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SplashScreenService } from './services/splash-screen.service';
 @NgModule({
   declarations: [],
   providers: [
@@ -20,12 +21,12 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
     }),
     provideHttpClient(
       withInterceptors([ErrorInterceptor, loadingInterceptor, RequestCancelInterceptor]),
+      withFetch(),
     ),
     provideTranslateService({
       fallbackLang: 'en',
       lang: 'en',
     }),
-    provideHttpClient(),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: '/i18n/',
@@ -38,4 +39,6 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
     MessageService,
   ],
 })
-export class CoreModule {}
+export class CoreModule {
+  constructor(private readonly splashScreen: SplashScreenService) {}
+}

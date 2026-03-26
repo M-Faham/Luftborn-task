@@ -11,7 +11,7 @@ export class SplashScreenService {
   private readonly animationComplete$ = timer(this.animationTime);
   private readonly navigationEnd$: Observable<NavigationEnd>;
 
-  private readonly document = inject(Document);
+  private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
 
   constructor() {
