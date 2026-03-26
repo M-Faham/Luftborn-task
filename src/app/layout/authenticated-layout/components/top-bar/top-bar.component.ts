@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'lb-top-bar',
-  standalone: true,
+
   imports: [CommonModule, InputTextModule, AvatarModule, ButtonModule, TranslatePipe],
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss'],

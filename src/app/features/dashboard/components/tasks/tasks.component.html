@@ -1,0 +1,5 @@
+<div class="tasks-grid">
+  <lb-tasks-list [tasks]="todoTasks()" [status]="statusEnum.Todo" />
+  <lb-tasks-list [tasks]="inProgressTasks()" [status]="statusEnum.InProgress" />
+  <lb-tasks-list [tasks]="doneTasks()" [status]="statusEnum.Done" />
+</div>

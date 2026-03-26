@@ -16,5 +16,10 @@
   },
   "layout": {
     "search_tasks": "Search Tasks"
+  },
+  "tasks": {
+    "in_progress": "In Progress",
+    "todo": "Todo",
+    "done": "Done"
   }
 }

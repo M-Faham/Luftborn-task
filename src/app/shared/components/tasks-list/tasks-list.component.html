@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-4 tasks_list">
+  <div class="flex justify-between tasks_list_header pb-2.5 items-center">
+    <h3 class="tasks_list_title">{{ 'tasks.' + status() | translate }}</h3>
+
+    <div class="tasks_count">
+      {{ tasks().length }}
+    </div>
+  </div>
+  @for (task of tasks(); track task.id) {
+    <lb-task-card class="mb-4" [task]="task" />
+  } @empty {
+    <p>No tasks found.</p>
+  }
+</div>

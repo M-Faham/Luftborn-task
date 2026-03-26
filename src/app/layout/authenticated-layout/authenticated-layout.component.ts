@@ -4,7 +4,7 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 
 @Component({
   selector: 'lb-authenticated-layout',
-  standalone: true,
+
   imports: [RouterOutlet, TopBarComponent],
   templateUrl: './authenticated-layout.component.html',
   styleUrls: ['./authenticated-layout.component.scss'],

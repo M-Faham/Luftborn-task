@@ -6,7 +6,7 @@ import { DueDatePipe } from '../../pipes';
 
 @Component({
   selector: 'lb-task-card',
-  standalone: true,
+
   imports: [CommonModule, DueDatePipe, TranslatePipe],
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss'],

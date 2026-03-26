@@ -5,20 +5,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { SplashScreenComponent } from './layout/loaders/splash-screen/splash-screen.component';
-import { TaskCardComponent } from './shared/components/todo-card/task-card.component';
+import { TaskCardComponent } from './shared/components/task-card/task-card.component';
 import { TasksResponse } from './shared/models';
 
 @Component({
   selector: 'lb-root',
-  imports: [RouterOutlet, ToastModule, SplashScreenComponent, TaskCardComponent],
+  imports: [RouterOutlet, ToastModule, SplashScreenComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  tasks = toSignal(
-    inject(HttpClient)
-      .get<TasksResponse>('/api/tasks')
-      .pipe(map((res) => res.tasks)),
-    { initialValue: [] },
-  );
-}
+export class App {}

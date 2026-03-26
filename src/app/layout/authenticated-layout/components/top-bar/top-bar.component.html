@@ -18,8 +18,9 @@
 
   <div class="top-bar__actions">
     <button
-      type="button"
+      type="button "
       (click)="toggleLanguage()"
+      class="bordered"
       [title]="currentLang() === 'en' ? 'التغيير للعربية' : 'Switch to English'"
     >
       {{ currentLang() === 'en' ? 'AR' : 'EN' }}
