@@ -2,22 +2,15 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { NgModule } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import { providePrimeNG } from 'primeng/config';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { loadingInterceptor } from './interceptors/loading.interceptor';
-import { materialize } from 'rxjs';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SplashScreenService } from './services/splash-screen.service';
 @NgModule({
   declarations: [],
   providers: [
-    providePrimeNG({
-      theme: {
-        preset: materialize,
-      },
-    }),
     provideHttpClient(withInterceptors([ErrorInterceptor, loadingInterceptor]), withFetch()),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
