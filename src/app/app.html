@@ -1,5 +1,6 @@
 <p-toast />
 <lb-splash-screen />
+<router-outlet />
 
 <div class="tasks-grid">
   @for (task of tasks(); track task.id) {
@@ -8,5 +9,3 @@
     <p>No tasks found.</p>
   }
 </div>
-
-<router-outlet />

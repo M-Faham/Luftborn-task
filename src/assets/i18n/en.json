@@ -13,5 +13,8 @@
     "due_in_days": "Due in {{ count }} days",
     "due_in_one_week": "Due in 1 week",
     "due_in_weeks": "Due in {{ count }} weeks"
+  },
+  "layout": {
+    "search_tasks": "Search Tasks"
   }
 }

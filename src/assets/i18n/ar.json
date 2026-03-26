@@ -13,5 +13,8 @@
     "due_in_days": "تستحق بعد {{ count }} أيام",
     "due_in_one_week": "تستحق بعد أسبوع",
     "due_in_weeks": "تستحق بعد {{ count }} أسابيع"
+  },
+  "layout": {
+    "search_tasks": "البحث عن المهام"
   }
 }

@@ -1,0 +1,32 @@
+<header class="top-bar">
+  <!-- Left: Logo + App Name -->
+  <div class="top-bar__brand">
+    <div class="top-bar__logo" aria-hidden="true">
+      <span class="top-bar__logo-inner"></span>
+    </div>
+    <span class="top-bar__app-name">Task Manager</span>
+  </div>
+
+  <!-- Center: Search -->
+  <div class="top-bar__search">
+    <input
+      type="text"
+      class="top-bar__search-input"
+      [placeholder]="'🔍 ' + ('layout.search_tasks' | translate)"
+    />
+  </div>
+
+  <div class="top-bar__actions">
+    <button
+      type="button"
+      (click)="toggleLanguage()"
+      [title]="currentLang() === 'en' ? 'التغيير للعربية' : 'Switch to English'"
+    >
+      {{ currentLang() === 'en' ? 'AR' : 'EN' }}
+    </button>
+
+    <button class="button-outline" type="button" aria-label="Notifications">🔔</button>
+
+    <div class="avatar" aria-label="User: John Doe">JD</div>
+  </div>
+</header>
