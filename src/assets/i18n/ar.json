@@ -1,5 +1,17 @@
 {
   "common": {
     "please_wait": "انتظر من فضلك"
+  },
+  "due_date": {
+    "completed_today": "اكتملت اليوم",
+    "completed_yesterday": "اكتملت أمس",
+    "completed_days_ago": "اكتملت منذ {{ count }} أيام",
+    "overdue_by_one_day": "متأخرة بيوم واحد",
+    "overdue_by_days": "متأخرة بـ {{ count }} أيام",
+    "due_today": "تستحق اليوم",
+    "due_in_one_day": "تستحق بعد يوم واحد",
+    "due_in_days": "تستحق بعد {{ count }} أيام",
+    "due_in_one_week": "تستحق بعد أسبوع",
+    "due_in_weeks": "تستحق بعد {{ count }} أسابيع"
   }
 }

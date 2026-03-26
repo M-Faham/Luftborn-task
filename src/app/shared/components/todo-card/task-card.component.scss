@@ -1,0 +1,149 @@
+.task-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 17px;
+  cursor: pointer;
+
+  width: 490px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.is-overdue {
+    background-color: #ffebee;
+    border-color: #fecaca;
+    border-left-color: transparent;
+    border-left-color: #d32f2f;
+  }
+
+  &.priority-high:hover {
+    box-shadow: 0px 8px 20px 0px #388e3c40;
+  }
+
+  &.priority-medium:hover {
+    box-shadow: 0px 8px 20px 0px #388e3c40;
+  }
+
+  &.priority-low:hover {
+    box-shadow: 0px 8px 20px 0px #1976d240;
+  }
+
+  &.is-overdue:hover {
+    box-shadow: 0px 8px 20px 0px #d32f2f4d;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-bottom: 7px;
+}
+
+.priority-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  &.badge-high {
+    background-color: #ffebee;
+    color: #dc2626;
+  }
+
+  &.badge-medium {
+    background-color: #fff7ed;
+    color: #ea580c;
+  }
+
+  &.badge-low {
+    background-color: #f0fdf4;
+    color: #16a34a;
+  }
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+  }
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: #111827;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.card-description {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.card-status {
+  margin-bottom: 3px;
+  color: #757575;
+  font-size: 10.9px;
+}
+
+.card-tag {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+.card-footer {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.assignee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+
+  &.avatar-initials {
+    background-color: #1976d2;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.assignee-name {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}

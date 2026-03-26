@@ -1,0 +1,38 @@
+<div class="task-card" [ngClass]="cardClasses()">
+  <div class="card-header">
+    <span class="priority-badge" [class]="'badge-' + task().priority">
+      {{ task().priority | uppercase }}
+    </span>
+    <button class="menu-btn" type="button" aria-label="More options">⋮</button>
+  </div>
+
+  <h3 class="card-title">{{ task().title }}</h3>
+  <p class="card-description">{{ task().description }}</p>
+
+  <div>
+    @let dueDateInfo = task() | dueDate;
+    <div class="card-status">
+      @if (dueDateInfo.type === 'overdue') {
+        ⚠
+      } @else if (dueDateInfo.type === 'done') {
+        ✅
+      } @else {
+        📅
+      }
+      <span>{{ dueDateInfo.labelKey | translate: dueDateInfo.labelParams }}</span>
+    </div>
+
+    @if (task().tags.length > 0) {
+      <div class="card-tag">{{ task().tags[0] }}</div>
+    }
+  </div>
+
+  <div class="card-footer">
+    <div class="assignee">
+      @if (task().assignee.avatar) {
+        <div class="avatar avatar-initials">{{ task().assignee.avatar }}</div>
+      }
+      <span class="assignee-name">@{{ task().assignee.name }}</span>
+    </div>
+  </div>
+</div>

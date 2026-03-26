@@ -1,5 +1,17 @@
 {
   "common": {
     "please_wait": "Please Wait "
+  },
+  "due_date": {
+    "completed_today": "Completed today",
+    "completed_yesterday": "Completed yesterday",
+    "completed_days_ago": "Completed {{ count }} days ago",
+    "overdue_by_one_day": "Overdue by 1 day",
+    "overdue_by_days": "Overdue by {{ count }} days",
+    "due_today": "Due today",
+    "due_in_one_day": "Due in 1 day",
+    "due_in_days": "Due in {{ count }} days",
+    "due_in_one_week": "Due in 1 week",
+    "due_in_weeks": "Due in {{ count }} weeks"
   }
 }

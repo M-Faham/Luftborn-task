@@ -1,4 +1,4 @@
-import { ChangeType } from '../types/change-type.type';
+import { ChangeTypeEnum } from '../enums/change-type.enum';
 
 export interface Statistic {
   id: string;
@@ -7,6 +7,6 @@ export interface Statistic {
   value: number;
   change: string;
   changeLabel: string;
-  changeType: ChangeType;
+  changeType: ChangeTypeEnum;
   color: string;
 }

@@ -1,16 +1,16 @@
-import { TaskStatus } from '../types/task-status.type';
-import { TaskPriority } from '../types/task-priority.type';
+import { TaskStatusEnum } from '../enums/task-status.enum';
+import { TaskPriorityEnum } from '../enums/task-priority.enum';
 import { Assignee } from './assignee.model';
 
 export interface Task {
   id: string;
   title: string;
   description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
+  status: TaskStatusEnum;
+  priority: TaskPriorityEnum;
   dueDate: string;
-  isOverdue: boolean;
-  completedAt: string;
+  isOverdue?: boolean;
+  completedAt?: string;
   assignee: Assignee;
   tags: string[];
   createdAt: string;
