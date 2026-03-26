@@ -1,0 +1,20 @@
+<aside class="side-menu">
+  <nav class="side-menu__nav">
+    @for (item of menuItems; track item.route) {
+      <a
+        class="side-menu__item"
+        [routerLink]="item.route"
+        routerLinkActive="side-menu__item--active"
+      >
+        <span class="side-menu__icon">{{ item.icon }}</span>
+        <span class="side-menu__label">{{ item.label | translate }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="side-menu__footer">
+    <button class="side-menu__new-task" routerLink="/tasks">
+      + {{ 'sideMenu.newTask' | translate }}
+    </button>
+  </div>
+</aside>

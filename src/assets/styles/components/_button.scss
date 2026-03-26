@@ -4,7 +4,7 @@ button {
   padding: 8px 17px;
   border-radius: 10px;
   &:hover {
-    background-color: #1565c0;
+    background-color: var(--lb-accent);
     color: white;
   }
   &.button-outline {

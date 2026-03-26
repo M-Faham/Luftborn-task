@@ -14,6 +14,15 @@
     "due_in_one_week": "Due in 1 week",
     "due_in_weeks": "Due in {{ count }} weeks"
   },
+  "sideMenu": {
+    "dashboard": "Dashboard",
+    "tasks": "Tasks",
+    "calendar": "Calendar",
+    "analytics": "Analytics",
+    "team": "Team",
+    "settings": "Settings",
+    "newTask": "New Task"
+  },
   "layout": {
     "search_tasks": "Search Tasks"
   },

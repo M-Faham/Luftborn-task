@@ -19,7 +19,7 @@
 .top-bar__logo {
   width: 32px;
   height: 32px;
-  background-color: #1976d2;
+  background-color: var(--lb-accent);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -36,7 +36,7 @@
 .top-bar__app-name {
   font-size: 16px;
   font-weight: 700;
-  color: #1976d2;
+  color: var(--lb-accent);
   white-space: nowrap;
 }
 
@@ -71,4 +71,3 @@
   gap: 12px;
   flex-shrink: 0;
 }
-
