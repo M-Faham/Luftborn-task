@@ -20,6 +20,9 @@
   "tasks": {
     "in_progress": "In Progress",
     "todo": "Todo",
-    "done": "Done"
+    "done": "Done",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
   }
 }

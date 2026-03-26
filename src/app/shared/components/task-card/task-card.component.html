@@ -1,7 +1,7 @@
 <div class="task-card" [ngClass]="cardClasses()">
   <div class="card-header">
     <span class="priority-badge truncate" [class]="'badge-' + task().priority">
-      {{ task().priority | uppercase }}
+      {{ 'tasks.' + task().priority | translate | uppercase }}
     </span>
     <button class="menu-btn" type="button" aria-label="More options">⋮</button>
   </div>
