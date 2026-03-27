@@ -1,6 +1,7 @@
 import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
+import { MenuItemCommandEvent } from 'primeng/api';
 import { TaskCardComponent } from './task-card.component';
 import { Task } from '../../models';
 import { TaskStatusEnum, TaskPriorityEnum } from '../../enums';
@@ -91,6 +92,163 @@ describe('TaskCardComponent', () => {
 
       const classes = host.card().cardClasses();
       expect(classes['priority-high']).toBe(true);
+    });
+  });
+
+  describe('speedDialItems', () => {
+    it('should have four items', () => {
+      initWith();
+
+      expect(host.card().speedDialItems()).toHaveLength(4);
+    });
+
+    it('should disable move-forward when status is Done', () => {
+      initWith({ status: TaskStatusEnum.Done });
+
+      const items = host.card().speedDialItems();
+      const moveForward = items.find((i) => i.icon === 'pi pi-arrow-right')!;
+      expect(moveForward.disabled).toBe(true);
+    });
+
+    it('should enable move-forward when status is not Done', () => {
+      initWith({ status: TaskStatusEnum.InProgress });
+
+      const items = host.card().speedDialItems();
+      const moveForward = items.find((i) => i.icon === 'pi pi-arrow-right')!;
+      expect(moveForward.disabled).toBe(false);
+    });
+
+    it('should disable move-backward when status is Todo', () => {
+      initWith({ status: TaskStatusEnum.Todo });
+
+      const items = host.card().speedDialItems();
+      const moveBackward = items.find((i) => i.icon === 'pi pi-arrow-left')!;
+      expect(moveBackward.disabled).toBe(true);
+    });
+
+    it('should enable move-backward when status is not Todo', () => {
+      initWith({ status: TaskStatusEnum.InProgress });
+
+      const items = host.card().speedDialItems();
+      const moveBackward = items.find((i) => i.icon === 'pi pi-arrow-left')!;
+      expect(moveBackward.disabled).toBe(false);
+    });
+
+    it('should emit moveForward when move-forward command is invoked', () => {
+      const task = makeTask({ status: TaskStatusEnum.Todo });
+      initWith(task);
+
+      const spy = vi.fn();
+      host.card().moveForward.subscribe(spy);
+
+      const moveForward = host
+        .card()
+        .speedDialItems()
+        .find((i) => i.icon === 'pi pi-arrow-right')!;
+      moveForward.command!({} as MenuItemCommandEvent);
+
+      expect(spy).toHaveBeenCalledWith(task);
+    });
+
+    it('should emit update when update command is invoked', () => {
+      const task = makeTask();
+      initWith(task);
+
+      const spy = vi.fn();
+      host.card().update.subscribe(spy);
+
+      const updateItem = host
+        .card()
+        .speedDialItems()
+        .find((i) => i.icon === 'pi pi-pencil')!;
+      updateItem.command!({} as MenuItemCommandEvent);
+
+      expect(spy).toHaveBeenCalledWith(task);
+    });
+
+    it('should emit delete when delete command is invoked', () => {
+      const task = makeTask();
+      initWith(task);
+
+      const spy = vi.fn();
+      host.card().delete.subscribe(spy);
+
+      const deleteItem = host
+        .card()
+        .speedDialItems()
+        .find((i) => i.icon === 'pi pi-trash')!;
+      deleteItem.command!({} as MenuItemCommandEvent);
+
+      expect(spy).toHaveBeenCalledWith(task);
+    });
+
+    it('should emit moveBackward when move-backward command is invoked', () => {
+      const task = makeTask({ status: TaskStatusEnum.InProgress });
+      initWith(task);
+
+      const spy = vi.fn();
+      host.card().moveBackward.subscribe(spy);
+
+      const moveBackward = host
+        .card()
+        .speedDialItems()
+        .find((i) => i.icon === 'pi pi-arrow-left')!;
+      moveBackward.command!({} as MenuItemCommandEvent);
+
+      expect(spy).toHaveBeenCalledWith(task);
+    });
+  });
+
+  describe('template rendering', () => {
+    it('should render the task title', () => {
+      initWith({ title: 'My Important Task' });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.card-title')!.textContent).toContain('My Important Task');
+    });
+
+    it('should render the task description', () => {
+      initWith({ description: 'Some details here' });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.card-description')!.textContent).toContain('Some details here');
+    });
+
+    it('should render the assignee name', () => {
+      initWith({ assignee: { id: 'u2', name: 'Bob', avatar: 'BO', email: 'bob@example.com' } });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.assignee-name')!.textContent).toContain('Bob');
+    });
+
+    it('should render the assignee avatar', () => {
+      initWith({ assignee: { id: 'u2', name: 'Bob', avatar: 'BO', email: 'bob@example.com' } });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.avatar')!.textContent).toContain('BO');
+    });
+
+    it('should render the first tag when tags are present', () => {
+      initWith({ tags: ['urgent', 'frontend'] });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.card-tag')!.textContent).toContain('urgent');
+    });
+
+    it('should not render a tag when tags are empty', () => {
+      initWith({ tags: [] });
+
+      const el: HTMLElement = fixture.nativeElement;
+      expect(el.querySelector('.card-tag')).toBeNull();
+    });
+
+    it('should apply ngClass with cardClasses on the task-card element', () => {
+      initWith({ priority: TaskPriorityEnum.High, isOverdue: true });
+
+      const el: HTMLElement = fixture.nativeElement;
+      const card = el.querySelector('.task-card')!;
+      expect(card.classList.contains('priority-high')).toBe(true);
+      expect(card.classList.contains('is-overdue')).toBe(true);
     });
   });
 });

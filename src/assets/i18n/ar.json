@@ -38,6 +38,11 @@
       "update": "تعديل",
       "move_forward": "نقل للأمام",
       "move_backward": "نقل للخلف"
-    }
+    },
+    "confirm_delete": {
+      "header": "تأكيد الحذف",
+      "message": "هل أنت متأكد من حذف \"{{ title }}\"؟"
+    },
+    "delete_success": "تم حذف المهمة بنجاح"
   }
 }

@@ -38,6 +38,11 @@
       "update": "Update",
       "move_forward": "Move Forward",
       "move_backward": "Move Backward"
-    }
+    },
+    "confirm_delete": {
+      "header": "Confirm Delete",
+      "message": "Are you sure you want to delete \"{{ title }}\"?"
+    },
+    "delete_success": "Task deleted successfully"
   }
 }

@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { TasksComponent } from './tasks.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../../../shared/models';
 import { TaskStatusEnum, TaskPriorityEnum } from '../../../../shared/enums';
@@ -50,7 +51,13 @@ describe('TasksComponent', () => {
       providers: [provideTranslateService({ fallbackLang: 'en' })],
     })
       .overrideComponent(TasksComponent, {
-        set: { providers: [{ provide: TaskService, useValue: mockTaskService }] },
+        set: {
+          providers: [
+            { provide: TaskService, useValue: mockTaskService },
+            ConfirmationService,
+            MessageService,
+          ],
+        },
       })
       .compileComponents();
 

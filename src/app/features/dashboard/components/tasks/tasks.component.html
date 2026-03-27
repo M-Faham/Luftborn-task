@@ -1,5 +1,11 @@
 <div class="tasks-grid">
-  <lb-tasks-list [tasks]="todoTasks()" [status]="statusEnum.Todo" />
-  <lb-tasks-list [tasks]="inProgressTasks()" [status]="statusEnum.InProgress" />
-  <lb-tasks-list [tasks]="doneTasks()" [status]="statusEnum.Done" />
+  <lb-tasks-list [tasks]="todoTasks()" [status]="statusEnum.Todo" (delete)="onDeleteTask($event)" />
+  <lb-tasks-list
+    [tasks]="inProgressTasks()"
+    [status]="statusEnum.InProgress"
+    (delete)="onDeleteTask($event)"
+  />
+  <lb-tasks-list [tasks]="doneTasks()" [status]="statusEnum.Done" (delete)="onDeleteTask($event)" />
 </div>
+
+<p-confirmDialog />

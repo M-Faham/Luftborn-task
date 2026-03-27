@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Task } from '../../models';
 import { TaskStatusEnum } from '../../enums';
 import { TaskCardComponent } from '../task-card/task-card.component';
@@ -13,4 +13,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class TasksListComponent {
   tasks = input.required<Task[]>();
   status = input.required<TaskStatusEnum>();
+
+  delete = output<Task>();
 }
