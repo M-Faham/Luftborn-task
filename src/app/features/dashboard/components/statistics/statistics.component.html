@@ -1,1 +1,5 @@
-<p>statistics works!</p>
+<div class="statistics-grid">
+  @for (stat of statistics(); track stat.id) {
+    <lb-stats-card [stat]="stat" />
+  }
+</div>

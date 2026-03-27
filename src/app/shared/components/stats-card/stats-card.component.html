@@ -1,0 +1,10 @@
+<div class="stats-card">
+  <div class="stats-card__header">
+    <span class="stats-card__icon">{{ stat().icon }}</span>
+    <span class="stats-card__title">{{ 'stats.' + stat().title | translate }}</span>
+  </div>
+  <div class="stats-card__value">{{ stat().value }}</div>
+  <div class="stats-card__change" [ngClass]="changeClasses()">
+    {{ stat().change !== '0' ? stat().change : ('stats.same_as_yesterday' | translate) }}
+  </div>
+</div>

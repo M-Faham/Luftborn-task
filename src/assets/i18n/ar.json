@@ -62,5 +62,12 @@
     "create": "إنشاء",
     "create_success": "تم إنشاء المهمة بنجاح",
     "update_success": "تم تحديث المهمة بنجاح"
+  },
+  "stats": {
+    "same_as_yesterday": "مثل الأمس",
+    "In Progress": "قيد التنفيذ",
+    "Completed": "مكتمل",
+    "Total Tasks": "مجموع المهام",
+    "Overdue": "متأخر"
   }
 }

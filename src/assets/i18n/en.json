@@ -62,5 +62,12 @@
     "create": "Create",
     "create_success": "Task created successfully",
     "update_success": "Task updated successfully"
+  },
+  "stats": {
+    "same_as_yesterday": "Same As Yesterday",
+    "In Progress": "In Progress",
+    "Completed": "Completed",
+    "Total Tasks": "Total Tasks",
+    "Overdue": "Overdue"
   }
 }
