@@ -66,17 +66,17 @@ describe('DueDatePipe', () => {
 
   describe('overdue status', () => {
     it('should return overdue type', () => {
-      const result = pipe.transform(makeTask({ isOverdue: true, dueDate: daysFromNow(-3) }));
+      const result = pipe.transform(makeTask({ dueDate: daysFromNow(-3) }));
       expect(result.type).toBe('overdue');
     });
 
     it('should return overdue_by_one_day when overdue by 1 day', () => {
-      const result = pipe.transform(makeTask({ isOverdue: true, dueDate: daysFromNow(-1) }));
+      const result = pipe.transform(makeTask({ dueDate: daysFromNow(-1) }));
       expect(result.labelKey).toBe('due_date.overdue_by_one_day');
     });
 
     it('should return overdue_by_days with count when overdue by multiple days', () => {
-      const result = pipe.transform(makeTask({ isOverdue: true, dueDate: daysFromNow(-4) }));
+      const result = pipe.transform(makeTask({ dueDate: daysFromNow(-4) }));
       expect(result.labelKey).toBe('due_date.overdue_by_days');
       expect(result.labelParams?.['count']).toBe(4);
     });

@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { TaskService } from '../../services/task.service';
-import { Task, TasksListComponent } from '../../../../shared';
+import { Task, TasksListComponent, TaskFormComponent, TaskFormResult } from '../../../../shared';
 import { TaskStatusEnum } from '../../../../shared/enums';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'primeng/dynamicdialog';
+
+const STATUS_ORDER = [TaskStatusEnum.Todo, TaskStatusEnum.InProgress, TaskStatusEnum.Done];
 
 @Component({
   selector: 'lb-tasks',
@@ -26,6 +29,7 @@ export class TasksComponent {
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly dialogService = inject(DialogService);
 
   constructor() {
     this.isLoading = this.taskService.isLoading;
@@ -57,5 +61,50 @@ export class TasksComponent {
         });
       },
     });
+  }
+
+  onUpdateTask(task: Task): void {
+    const ref = this.dialogService.open(TaskFormComponent, {
+      header: this.translate.instant('task_form.edit_title'),
+      width: '500px',
+      data: { task },
+    });
+
+    ref?.onClose.subscribe((result?: TaskFormResult) => {
+      if (result?.changes) {
+        this.submitUpdate(task.id, result.changes);
+      }
+    });
+  }
+
+  onMoveForward(task: Task): void {
+    const nextStatus = this.getAdjacentStatus(task.status, 1);
+    if (nextStatus) {
+      this.submitUpdate(task.id, { status: nextStatus });
+    }
+  }
+
+  onMoveBackward(task: Task): void {
+    const prevStatus = this.getAdjacentStatus(task.status, -1);
+    if (prevStatus) {
+      this.submitUpdate(task.id, { status: prevStatus });
+    }
+  }
+
+  private submitUpdate(id: string, changes: Partial<Task>): void {
+    this.taskService.update(id, changes).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('task_form.update_success'),
+        });
+      },
+    });
+  }
+
+  private getAdjacentStatus(current: TaskStatusEnum, direction: 1 | -1): TaskStatusEnum | null {
+    const currentIndex = STATUS_ORDER.indexOf(current);
+    const nextIndex = currentIndex + direction;
+    return STATUS_ORDER[nextIndex] ?? null;
   }
 }

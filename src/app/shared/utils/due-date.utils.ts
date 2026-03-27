@@ -27,14 +27,19 @@ export function getDueDateInfo(task: Task): DueDateInfo {
 
   const dueDate = new Date(task.dueDate);
 
-  if (task.isOverdue) {
-    const diff = daysBetween(dueDate, today);
-    if (diff <= 1) return { type: 'overdue', labelKey: 'due_date.overdue_by_one_day' };
-    return { type: 'overdue', labelKey: 'due_date.overdue_by_days', labelParams: { count: diff } };
+  const diff = daysBetween(today, dueDate);
+
+  if (diff < 0) {
+    const overdueDays = -diff;
+    if (overdueDays <= 1) return { type: 'overdue', labelKey: 'due_date.overdue_by_one_day' };
+    return {
+      type: 'overdue',
+      labelKey: 'due_date.overdue_by_days',
+      labelParams: { count: overdueDays },
+    };
   }
 
-  const diff = daysBetween(today, dueDate);
-  if (diff <= 0) return { type: 'due', labelKey: 'due_date.due_today' };
+  if (diff === 0) return { type: 'due', labelKey: 'due_date.due_today' };
   if (diff === 1) return { type: 'due', labelKey: 'due_date.due_in_one_day' };
   if (diff < 7)
     return { type: 'due', labelKey: 'due_date.due_in_days', labelParams: { count: diff } };

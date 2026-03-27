@@ -15,4 +15,7 @@ export class TasksListComponent {
   status = input.required<TaskStatusEnum>();
 
   delete = output<Task>();
+  update = output<Task>();
+  moveForward = output<Task>();
+  moveBackward = output<Task>();
 }

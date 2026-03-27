@@ -59,15 +59,15 @@ describe('TaskCardComponent', () => {
       expect(classes).toEqual(expect.objectContaining({ 'priority-high': true }));
     });
 
-    it('should set is-overdue to true when task is overdue', () => {
-      initWith({ isOverdue: true });
+    it('should set is-overdue to true when due date is in the past', () => {
+      initWith({ dueDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() });
 
       const classes = host.card().cardClasses();
       expect(classes['is-overdue']).toBe(true);
     });
 
-    it('should set is-overdue to false when task is not overdue', () => {
-      initWith({ isOverdue: false });
+    it('should set is-overdue to false when due date is in the future', () => {
+      initWith({ dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString() });
 
       const classes = host.card().cardClasses();
       expect(classes['is-overdue']).toBe(false);
@@ -243,7 +243,10 @@ describe('TaskCardComponent', () => {
     });
 
     it('should apply ngClass with cardClasses on the task-card element', () => {
-      initWith({ priority: TaskPriorityEnum.High, isOverdue: true });
+      initWith({
+        priority: TaskPriorityEnum.High,
+        dueDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+      });
 
       const el: HTMLElement = fixture.nativeElement;
       const card = el.querySelector('.task-card')!;

@@ -8,7 +8,7 @@ import {
   Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Task } from '../../models';
 import { TaskStatusEnum } from '../../enums';
@@ -19,7 +19,7 @@ import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'lb-task-card',
-  imports: [CommonModule, DueDatePipe, TranslatePipe, Tooltip, SpeedDialModule],
+  imports: [CommonModule, DueDatePipe, TranslatePipe, Tooltip, SpeedDialModule, JsonPipe],
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,9 +34,13 @@ export class TaskCardComponent {
 
   cardClasses = computed(() => {
     const task = this.task();
+    const dueDate = new Date(task.dueDate);
+    const today = new Date();
+    dueDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
     return {
       [`priority-${task.priority}`]: true,
-      'is-overdue': task.isOverdue,
+      'is-overdue': task.status !== 'done' && dueDate < today,
     };
   });
 

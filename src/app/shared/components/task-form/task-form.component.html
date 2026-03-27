@@ -1,0 +1,94 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <label for="title">{{ 'task_form.title' | translate }}</label>
+    <input
+      pInputText
+      id="title"
+      formControlName="title"
+      [placeholder]="'task_form.title_placeholder' | translate"
+    />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="description">{{ 'task_form.description' | translate }}</label>
+    <textarea
+      pTextarea
+      id="description"
+      formControlName="description"
+      [placeholder]="'task_form.description_placeholder' | translate"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <div class="flex gap-4">
+    <div class="flex flex-col gap-1 flex-1">
+      <label for="priority">{{ 'task_form.priority' | translate }}</label>
+      <p-select
+        id="priority"
+        formControlName="priority"
+        [options]="priorityOptions"
+        optionLabel="label"
+        optionValue="value"
+      >
+        <ng-template #selectedItem let-selectedOption>
+          {{ selectedOption.label | translate }}
+        </ng-template>
+        <ng-template #item let-option>
+          {{ option.label | translate }}
+        </ng-template>
+      </p-select>
+    </div>
+
+    <div class="flex flex-col gap-1 flex-1">
+      <label for="status">{{ 'task_form.status' | translate }}</label>
+      <p-select
+        id="status"
+        formControlName="status"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+      >
+        <ng-template #selectedItem let-selectedOption>
+          {{ selectedOption.label | translate }}
+        </ng-template>
+        <ng-template #item let-option>
+          {{ option.label | translate }}
+        </ng-template>
+      </p-select>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="dueDate">{{ 'task_form.due_date' | translate }}</label>
+    <p-datepicker
+      id="dueDate"
+      formControlName="dueDate"
+      dateFormat="yy-mm-dd"
+      appendTo="body"
+      [showIcon]="true"
+    />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="tags">{{ 'task_form.tags' | translate }}</label>
+    <input
+      pInputText
+      id="tags"
+      formControlName="tags"
+      [placeholder]="'task_form.tags_placeholder' | translate"
+    />
+  </div>
+
+  <div class="flex justify-end gap-2 mt-2">
+    <p-button
+      [label]="'task_form.cancel' | translate"
+      severity="secondary"
+      (onClick)="onCancel()"
+    />
+    <p-button
+      [label]="(isEdit ? 'task_form.save' : 'task_form.create') | translate"
+      type="submit"
+      [disabled]="form.invalid"
+    />
+  </div>
+</form>

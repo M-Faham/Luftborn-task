@@ -44,5 +44,23 @@
       "message": "هل أنت متأكد من حذف \"{{ title }}\"؟"
     },
     "delete_success": "تم حذف المهمة بنجاح"
+  },
+  "task_form": {
+    "create_title": "إنشاء مهمة",
+    "edit_title": "تعديل مهمة",
+    "title": "العنوان",
+    "title_placeholder": "أدخل عنوان المهمة",
+    "description": "الوصف",
+    "description_placeholder": "أدخل وصف المهمة",
+    "priority": "الأولوية",
+    "status": "الحالة",
+    "due_date": "تاريخ الاستحقاق",
+    "tags": "العلامات",
+    "tags_placeholder": "أدخل العلامات مفصولة بفواصل",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "create": "إنشاء",
+    "create_success": "تم إنشاء المهمة بنجاح",
+    "update_success": "تم تحديث المهمة بنجاح"
   }
 }

@@ -44,5 +44,23 @@
       "message": "Are you sure you want to delete \"{{ title }}\"?"
     },
     "delete_success": "Task deleted successfully"
+  },
+  "task_form": {
+    "create_title": "Create Task",
+    "edit_title": "Edit Task",
+    "title": "Title",
+    "title_placeholder": "Enter task title",
+    "description": "Description",
+    "description_placeholder": "Enter task description",
+    "priority": "Priority",
+    "status": "Status",
+    "due_date": "Due Date",
+    "tags": "Tags",
+    "tags_placeholder": "Enter tags separated by commas",
+    "cancel": "Cancel",
+    "save": "Save",
+    "create": "Create",
+    "create_success": "Task created successfully",
+    "update_success": "Task updated successfully"
   }
 }

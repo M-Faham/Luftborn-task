@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { TasksComponent } from './tasks.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../../../shared/models';
 import { TaskStatusEnum, TaskPriorityEnum } from '../../../../shared/enums';
@@ -48,7 +49,7 @@ describe('TasksComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TasksComponent],
-      providers: [provideTranslateService({ fallbackLang: 'en' })],
+      providers: [provideTranslateService({ fallbackLang: 'en' }), DialogService],
     })
       .overrideComponent(TasksComponent, {
         set: {
@@ -56,6 +57,7 @@ describe('TasksComponent', () => {
             { provide: TaskService, useValue: mockTaskService },
             ConfirmationService,
             MessageService,
+            DialogService,
           ],
         },
       })

@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { DashboardComponent } from './dashboard.component';
 import { invalidateCache } from '../../core/interceptors/caching.interceptor';
 
@@ -19,6 +20,7 @@ describe('DashboardComponent', () => {
         provideHttpClientTesting(),
         provideTranslateService({ fallbackLang: 'en' }),
         MessageService,
+        DialogService,
       ],
     }).compileComponents();
 

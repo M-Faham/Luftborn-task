@@ -21,7 +21,7 @@
   <p class="card-description truncate" [pTooltip]="task().description">{{ task().description }}</p>
   <div>
     @let dueDateInfo = task() | dueDate;
-    <div class="card-status">
+    <div class="card-status" [pTooltip]="task().dueDate">
       @if (dueDateInfo.type === 'overdue') {
         ⚠
       } @else if (dueDateInfo.type === 'done') {
@@ -32,9 +32,11 @@
       <span>{{ dueDateInfo.labelKey | translate: dueDateInfo.labelParams }}</span>
     </div>
 
-    @if (task().tags.length > 0) {
-      <div class="card-tag">{{ task().tags[0] }}</div>
-    }
+    <div class="flex gap-2">
+      @for (tag of task().tags; track tag) {
+        <div class="card-tag">{{ tag }}</div>
+      }
+    </div>
   </div>
 
   <div class="card-footer">
