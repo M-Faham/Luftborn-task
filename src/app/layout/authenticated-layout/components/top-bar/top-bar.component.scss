@@ -71,3 +71,9 @@
   gap: 12px;
   flex-shrink: 0;
 }
+
+@media screen and (max-width: 991px) {
+  .top-bar__app-name {
+    display: none;
+  }
+}

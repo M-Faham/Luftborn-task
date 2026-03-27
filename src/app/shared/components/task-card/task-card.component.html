@@ -1,14 +1,24 @@
 <div class="task-card" [ngClass]="cardClasses()">
   <div class="card-header">
-    <span class="priority-badge truncate" [class]="'badge-' + task().priority">
+    <span class="priority-badge" [class]="'badge-' + task().priority">
       {{ 'tasks.' + task().priority | translate | uppercase }}
     </span>
-    <button class="menu-btn" type="button" aria-label="More options">⋮</button>
+    <p-speeddial [model]="speedDialItems()" direction="left" [style]="{ position: 'relative' }">
+      <ng-template #button let-toggleCallback="toggleCallback">
+        <button
+          (click)="toggleCallback($event)"
+          class="menu-btn"
+          type="button"
+          aria-label="More options"
+        >
+          ⋮
+        </button>
+      </ng-template>
+    </p-speeddial>
   </div>
 
-  <h3 class="card-title">{{ task().title }}</h3>
-  <p class="card-description truncate" [title]="task().description">{{ task().description }}</p>
-
+  <h3 class="card-title truncate" [pTooltip]="task().title">{{ task().title }}</h3>
+  <p class="card-description truncate" [pTooltip]="task().description">{{ task().description }}</p>
   <div>
     @let dueDateInfo = task() | dueDate;
     <div class="card-status">

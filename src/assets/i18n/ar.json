@@ -32,6 +32,12 @@
     "done": "مكتمل",
     "high": "مرتفع",
     "medium": "متوسط",
-    "low": "منخفض"
+    "low": "منخفض",
+    "actions": {
+      "delete": "حذف",
+      "update": "تعديل",
+      "move_forward": "نقل للأمام",
+      "move_backward": "نقل للخلف"
+    }
   }
 }

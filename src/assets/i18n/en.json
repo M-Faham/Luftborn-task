@@ -32,6 +32,12 @@
     "done": "Done",
     "high": "High",
     "medium": "Medium",
-    "low": "Low"
+    "low": "Low",
+    "actions": {
+      "delete": "Delete",
+      "update": "Update",
+      "move_forward": "Move Forward",
+      "move_backward": "Move Backward"
+    }
   }
 }
