@@ -84,23 +84,6 @@ npm run build      # production build
 
 ---
 
-## Testing
-
-- **Framework:** Vitest with `@angular/build:unit-test`
-- **25 spec files, 212 tests, ~88% coverage** (requirement: 80%)
-- **Patterns used:**
-  - `TestBed` + `overrideComponent` to inject mock services at component level
-  - `HttpTestingController` for interceptor and service tests
-  - `fixture.componentRef.setInput()` for required signal inputs
-  - Spy-based assertions for dialog and confirmation service interactions
-
-```bash
-npm test                          # run once
-npm run test:coverage             # with coverage report
-```
-
----
-
 ## Performance
 
 - `OnPush` change detection on every component
