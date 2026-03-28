@@ -3,81 +3,81 @@
     "please_wait": "انتظر من فضلك"
   },
   "due_date": {
+    "completed_days_ago": "اكتملت منذ {{ count }} أيام",
     "completed_today": "اكتملت اليوم",
     "completed_yesterday": "اكتملت أمس",
-    "completed_days_ago": "اكتملت منذ {{ count }} أيام",
-    "overdue_by_one_day": "متأخرة بيوم واحد",
-    "overdue_by_days": "متأخرة بـ {{ count }} أيام",
-    "due_today": "تستحق اليوم",
-    "due_in_one_day": "تستحق بعد يوم واحد",
     "due_in_days": "تستحق بعد {{ count }} أيام",
+    "due_in_one_day": "تستحق بعد يوم واحد",
     "due_in_one_week": "تستحق بعد أسبوع",
-    "due_in_weeks": "تستحق بعد {{ count }} أسابيع"
+    "due_in_weeks": "تستحق بعد {{ count }} أسابيع",
+    "due_today": "تستحق اليوم",
+    "overdue_by_days": "متأخرة بـ {{ count }} أيام",
+    "overdue_by_one_day": "متأخرة بيوم واحد"
   },
-  "sideMenu": {
-    "dashboard": "لوحة التحكم",
-    "tasks": "المهام",
-    "calendar": "التقويم",
-    "analytics": "التحليلات",
-    "team": "الفريق",
-    "settings": "الإعدادات",
-    "newTask": "مهمة جديدة"
+  "filter_bar": {
+    "all": "الكل",
+    "all_assignees": "كل المسؤولين",
+    "all_priorities": "كل الأولويات",
+    "assignee": "المسؤول",
+    "new_task": "مهمة جديدة",
+    "priority": "الأولوية"
   },
   "layout": {
     "search_tasks": "البحث عن المهام"
   },
+  "sideMenu": {
+    "analytics": "التحليلات",
+    "calendar": "التقويم",
+    "dashboard": "لوحة التحكم",
+    "newTask": "مهمة جديدة",
+    "settings": "الإعدادات",
+    "tasks": "المهام",
+    "team": "الفريق"
+  },
+  "stats": {
+    "Completed": "مكتمل",
+    "In Progress": "قيد التنفيذ",
+    "Overdue": "متأخر",
+    "same_as_yesterday": "مثل الأمس",
+    "Total Tasks": "مجموع المهام"
+  },
+  "task_form": {
+    "assignee": "المسؤول",
+    "assignee_placeholder": "اختر المسؤول",
+    "cancel": "إلغاء",
+    "create": "إنشاء",
+    "create_success": "تم إنشاء المهمة بنجاح",
+    "create_title": "إنشاء مهمة",
+    "description": "الوصف",
+    "description_placeholder": "أدخل وصف المهمة",
+    "due_date": "تاريخ الاستحقاق",
+    "edit_title": "تعديل مهمة",
+    "priority": "الأولوية",
+    "save": "حفظ",
+    "status": "الحالة",
+    "tags": "العلامات",
+    "tags_placeholder": "أدخل العلامات مفصولة بفواصل",
+    "title": "العنوان",
+    "title_placeholder": "أدخل عنوان المهمة",
+    "update_success": "تم تحديث المهمة بنجاح"
+  },
   "tasks": {
-    "in_progress": "قيد التنفيذ",
-    "todo": "للتنفيذ",
-    "done": "مكتمل",
-    "high": "مرتفع",
-    "medium": "متوسط",
-    "low": "منخفض",
     "actions": {
       "delete": "حذف",
-      "update": "تعديل",
+      "move_backward": "نقل للخلف",
       "move_forward": "نقل للأمام",
-      "move_backward": "نقل للخلف"
+      "update": "تعديل"
     },
     "confirm_delete": {
       "header": "تأكيد الحذف",
       "message": "هل أنت متأكد من حذف \"{{ title }}\"؟"
     },
-    "delete_success": "تم حذف المهمة بنجاح"
-  },
-  "task_form": {
-    "create_title": "إنشاء مهمة",
-    "edit_title": "تعديل مهمة",
-    "title": "العنوان",
-    "title_placeholder": "أدخل عنوان المهمة",
-    "description": "الوصف",
-    "description_placeholder": "أدخل وصف المهمة",
-    "priority": "الأولوية",
-    "status": "الحالة",
-    "assignee": "المسؤول",
-    "assignee_placeholder": "اختر المسؤول",
-    "due_date": "تاريخ الاستحقاق",
-    "tags": "العلامات",
-    "tags_placeholder": "أدخل العلامات مفصولة بفواصل",
-    "cancel": "إلغاء",
-    "save": "حفظ",
-    "create": "إنشاء",
-    "create_success": "تم إنشاء المهمة بنجاح",
-    "update_success": "تم تحديث المهمة بنجاح"
-  },
-  "filter_bar": {
-    "all": "الكل",
-    "priority": "الأولوية",
-    "assignee": "المسؤول",
-    "all_priorities": "كل الأولويات",
-    "all_assignees": "كل المسؤولين",
-    "new_task": "+ مهمة جديدة"
-  },
-  "stats": {
-    "same_as_yesterday": "مثل الأمس",
-    "In Progress": "قيد التنفيذ",
-    "Completed": "مكتمل",
-    "Total Tasks": "مجموع المهام",
-    "Overdue": "متأخر"
+    "delete_success": "تم حذف المهمة بنجاح",
+    "done": "مكتمل",
+    "high": "مرتفع",
+    "in_progress": "قيد التنفيذ",
+    "low": "منخفض",
+    "medium": "متوسط",
+    "todo": "للتنفيذ"
   }
 }

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { NewTaskService } from '../../../../core/services/new-task.service';
 
 @Component({
   selector: 'lb-side-menu',
@@ -10,7 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideMenuComponent {
-  menuItems = [
+  protected readonly menuItems = [
     { icon: '📊', label: 'sideMenu.dashboard', route: '/dashboard' },
     { icon: '✅', label: 'sideMenu.tasks', route: '/tasks' },
     { icon: '📅', label: 'sideMenu.calendar', route: '/calendar' },
@@ -18,4 +19,10 @@ export class SideMenuComponent {
     { icon: '👥', label: 'sideMenu.team', route: '/team' },
     { icon: '⚙️', label: 'sideMenu.settings', route: '/settings' },
   ];
+
+  private readonly newTaskService = inject(NewTaskService);
+
+  onNewTask(): void {
+    this.newTaskService.requestNewTask();
+  }
 }

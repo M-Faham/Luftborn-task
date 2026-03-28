@@ -13,7 +13,7 @@
   </nav>
 
   <div class="side-menu__footer">
-    <button class="side-menu__new-task" routerLink="/tasks">
+    <button class="side-menu__new-task" (click)="onNewTask()">
       + {{ 'sideMenu.newTask' | translate }}
     </button>
   </div>

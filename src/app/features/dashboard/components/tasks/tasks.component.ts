@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { DialogService } from 'primeng/dynamicdialog';
+import { NewTaskService } from '../../../../core/services/new-task.service';
 import { SearchService } from '../../../../core/services/search.service';
 import {
   Assignee,
@@ -57,6 +58,7 @@ export class TasksComponent {
   protected readonly showDone: Signal<boolean>;
 
   private readonly taskService = inject(TaskService);
+  private readonly newTaskService = inject(NewTaskService);
   private readonly searchService = inject(SearchService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
@@ -91,6 +93,11 @@ export class TasksComponent {
 
     effect(() => {
       this.taskService.setFilters({ search: this.searchService.query() });
+    });
+
+    effect(() => {
+      const tick = this.newTaskService.trigger();
+      if (tick > 0) this.onCreateTask();
     });
   }
 
