@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { SplashScreenComponent } from './layout/loaders/splash-screen/splash-screen.component';
@@ -7,6 +7,5 @@ import { SplashScreenComponent } from './layout/loaders/splash-screen/splash-scr
   selector: 'lb-root',
   imports: [RouterOutlet, ToastModule, SplashScreenComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
 })
 export class App {}

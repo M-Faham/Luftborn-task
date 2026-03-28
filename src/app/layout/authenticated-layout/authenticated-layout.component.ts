@@ -8,7 +8,6 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 
   imports: [RouterOutlet, TopBarComponent, SideMenuComponent],
   templateUrl: './authenticated-layout.component.html',
-  styleUrls: ['./authenticated-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthenticatedLayoutComponent {}

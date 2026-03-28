@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
 import { SplashScreenComponent } from './splash-screen.component';
 
@@ -33,6 +33,6 @@ describe('SplashScreenComponent', () => {
 
   it('should render the please wait text element', () => {
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.querySelector('.splash-content p')).not.toBeNull();
+    expect(el.querySelector('.splash-screen p')).not.toBeNull();
   });
 });

@@ -1,6 +1,6 @@
 <p-skeleton class="h-full!" [ngClass]="{ 'hidden!': !isLoading() }" />
 
-<div class="chart-card" [ngClass]="{ 'hidden!': isLoading() }">
+<div class="chart-card flex flex-col gap-4" [ngClass]="{ 'hidden!': isLoading() }">
   <h3 class="chart-card__title">{{ title() | translate }}</h3>
   <div class="h-72">
     <canvas #canvas></canvas>
