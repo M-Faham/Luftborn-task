@@ -1,90 +1,91 @@
 {
+  "analytics": {
+    "by_assignee": "Tasks by Assignee",
+    "by_priority": "Tasks by Priority",
+    "by_status": "Tasks by Status",
+    "loading": "Loading charts...",
+    "title": "Task Analytics"
+  },
   "common": {
     "please_wait": "Please Wait "
   },
   "due_date": {
+    "completed_days_ago": "Completed {{ count }} days ago",
     "completed_today": "Completed today",
     "completed_yesterday": "Completed yesterday",
-    "completed_days_ago": "Completed {{ count }} days ago",
-    "overdue_by_one_day": "Overdue by 1 day",
-    "overdue_by_days": "Overdue by {{ count }} days",
-    "due_today": "Due today",
-    "due_in_one_day": "Due in 1 day",
     "due_in_days": "Due in {{ count }} days",
+    "due_in_one_day": "Due in 1 day",
     "due_in_one_week": "Due in 1 week",
-    "due_in_weeks": "Due in {{ count }} weeks"
+    "due_in_weeks": "Due in {{ count }} weeks",
+    "due_today": "Due today",
+    "overdue_by_days": "Overdue by {{ count }} days",
+    "overdue_by_one_day": "Overdue by 1 day"
   },
-  "sideMenu": {
-    "dashboard": "Dashboard",
-    "tasks": "Tasks",
-    "calendar": "Calendar",
-    "analytics": "Analytics",
-    "team": "Team",
-    "settings": "Settings",
-    "newTask": "New Task"
+  "filter_bar": {
+    "all": "All",
+    "all_assignees": "All Assignees",
+    "all_priorities": "All Priorities",
+    "assignee": "Assignee",
+    "new_task": "New Task",
+    "priority": "Priority"
   },
   "layout": {
     "search_tasks": "Search Tasks"
   },
+  "sideMenu": {
+    "analytics": "Analytics",
+    "calendar": "Calendar",
+    "dashboard": "Dashboard",
+    "newTask": "New Task",
+    "settings": "Settings",
+    "tasks": "Tasks",
+    "team": "Team"
+  },
+  "stats": {
+    "Completed": "Completed",
+    "In Progress": "In Progress",
+    "Overdue": "Overdue",
+    "same_as_yesterday": "Same As Yesterday",
+    "Total Tasks": "Total Tasks"
+  },
+  "task_form": {
+    "assignee": "Assignee",
+    "assignee_placeholder": "Select assignee",
+    "cancel": "Cancel",
+    "create": "Create",
+    "create_success": "Task created successfully",
+    "create_title": "Create Task",
+    "description": "Description",
+    "description_placeholder": "Enter task description",
+    "due_date": "Due Date",
+    "edit_title": "Edit Task",
+    "priority": "Priority",
+    "save": "Save",
+    "status": "Status",
+    "tags": "Tags",
+    "tags_placeholder": "Enter tags separated by commas",
+    "title": "Title",
+    "title_placeholder": "Enter task title",
+    "update_success": "Task updated successfully"
+  },
   "tasks": {
-    "in_progress": "In Progress",
-    "todo": "Todo",
-    "done": "Done",
-    "high": "High",
-    "medium": "Medium",
-    "low": "Low",
     "actions": {
       "delete": "Delete",
-      "update": "Update",
+      "move_backward": "Move Backward",
       "move_forward": "Move Forward",
-      "move_backward": "Move Backward"
+      "update": "Update"
     },
     "confirm_delete": {
       "header": "Confirm Delete",
       "message": "Are you sure you want to delete \"{{ title }}\"?"
     },
-    "delete_success": "Task deleted successfully"
-  },
-  "task_form": {
-    "create_title": "Create Task",
-    "edit_title": "Edit Task",
-    "title": "Title",
-    "title_placeholder": "Enter task title",
-    "description": "Description",
-    "description_placeholder": "Enter task description",
-    "priority": "Priority",
-    "status": "Status",
-    "assignee": "Assignee",
-    "assignee_placeholder": "Select assignee",
-    "due_date": "Due Date",
-    "tags": "Tags",
-    "tags_placeholder": "Enter tags separated by commas",
-    "cancel": "Cancel",
-    "save": "Save",
-    "create": "Create",
-    "create_success": "Task created successfully",
-    "update_success": "Task updated successfully"
-  },
-  "filter_bar": {
-    "all": "All",
-    "priority": "Priority",
-    "assignee": "Assignee",
-    "all_priorities": "All Priorities",
-    "all_assignees": "All Assignees",
-    "new_task": "New Task"
-  },
-  "stats": {
-    "same_as_yesterday": "Same As Yesterday",
-    "In Progress": "In Progress",
-    "Completed": "Completed",
-    "Total Tasks": "Total Tasks",
-    "Overdue": "Overdue"
-  },
-  "analytics": {
-    "title": "Task Analytics",
-    "loading": "Loading charts...",
-    "by_priority": "Tasks by Priority",
-    "by_status": "Tasks by Status",
-    "by_assignee": "Tasks by Assignee"
+    "delete_success": "Task deleted successfully",
+    "done": "Done",
+    "high": "High",
+    "in_progress": "In Progress",
+    "low": "Low",
+    "medium": "Medium",
+    "no_tasks": "No tasks were found.",
+    "todo": "Todo"
   }
 }

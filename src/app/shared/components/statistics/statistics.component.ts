@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
-import { StatsCardComponent } from '../stats-card/stats-card.component';
-import { Statistic } from '../../models';
+import { Skeleton } from 'primeng/skeleton';
 import { StatisticsService } from '../../../features/dashboard/services/statistics.service';
+import { Statistic } from '../../models';
+import { StatsCardComponent } from '../stats-card/stats-card.component';
 
 @Component({
   selector: 'lb-statistics',
-  imports: [StatsCardComponent],
+  imports: [StatsCardComponent, Skeleton],
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

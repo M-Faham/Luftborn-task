@@ -1,5 +1,12 @@
-<div class="statistics-grid">
-  @for (stat of statistics(); track stat.id) {
-    <lb-stats-card [stat]="stat" />
+<div class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4 2xl:grid-cols-4 xl:gap-6 p-5">
+  @if (isLoading()) {
+    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="h-40!"></p-skeleton>
+  } @else {
+    @for (stat of statistics(); track stat.id) {
+      <lb-stats-card [stat]="stat" />
+    }
   }
 </div>

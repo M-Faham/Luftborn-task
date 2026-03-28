@@ -14,6 +14,7 @@
     <lb-tasks-list
       [tasks]="todoTasks()"
       [status]="statusEnum.Todo"
+      [isLoading]="isLoading()"
       (delete)="onDeleteTask($event)"
       (update)="onUpdateTask($event)"
       (moveForward)="onMoveForward($event)"
@@ -24,6 +25,7 @@
     <lb-tasks-list
       [tasks]="inProgressTasks()"
       [status]="statusEnum.InProgress"
+      [isLoading]="isLoading()"
       (delete)="onDeleteTask($event)"
       (update)="onUpdateTask($event)"
       (moveForward)="onMoveForward($event)"
@@ -33,6 +35,7 @@
   @if (showDone()) {
     <lb-tasks-list
       [tasks]="doneTasks()"
+      [isLoading]="isLoading()"
       [status]="statusEnum.Done"
       (delete)="onDeleteTask($event)"
       (update)="onUpdateTask($event)"

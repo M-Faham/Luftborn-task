@@ -6,16 +6,23 @@
       {{ tasks().length }}
     </div>
   </div>
-  @for (task of tasks(); track task.id) {
-    <lb-task-card
-      class="mb-4"
-      [task]="task"
-      (delete)="delete.emit($event)"
-      (update)="update.emit($event)"
-      (moveForward)="moveForward.emit($event)"
-      (moveBackward)="moveBackward.emit($event)"
-    />
-  } @empty {
-    <p>No tasks found.</p>
+
+  @if (isLoading()) {
+    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="h-40!"></p-skeleton>
+  } @else {
+    @for (task of tasks(); track task.id) {
+      <lb-task-card
+        class="mb-4"
+        [task]="task"
+        (delete)="delete.emit($event)"
+        (update)="update.emit($event)"
+        (moveForward)="moveForward.emit($event)"
+        (moveBackward)="moveBackward.emit($event)"
+      />
+    } @empty {
+      <p>No tasks found.</p>
+    }
   }
 </div>
