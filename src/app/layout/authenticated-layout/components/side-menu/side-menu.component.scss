@@ -45,6 +45,11 @@
       background-color: var(--lb-accent);
     }
   }
+
+  &.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
 }
 
 .side-menu__icon {
