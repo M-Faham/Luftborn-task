@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SelectModule } from 'primeng/select';
-import { TaskPriorityEnum, TaskStatusEnum } from '../../../../shared/enums';
-import { Assignee } from '../../../../shared/models';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../enums';
+import { Assignee } from '../../models';
 
 export interface StatusTab {
   label: string;

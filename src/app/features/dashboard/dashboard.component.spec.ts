@@ -45,8 +45,8 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render lb-tasks element', () => {
+  it('should render lb-tasks-board element', () => {
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.querySelector('lb-tasks')).toBeTruthy();
+    expect(el.querySelector('lb-tasks-board')).toBeTruthy();
   });
 });

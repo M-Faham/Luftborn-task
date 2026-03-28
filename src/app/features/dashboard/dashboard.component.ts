@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { StatisticsComponent } from './components/statistics/statistics.component';
-import { TasksComponent } from './components/tasks/tasks.component';
+import { StatisticsComponent } from '../../shared/components/statistics/statistics.component';
+import { TasksBoardComponent } from '../../shared/components/tasks-board/tasks-board.component';
 
 @Component({
   selector: 'lb-dashboard',
 
-  imports: [StatisticsComponent, TasksComponent],
+  imports: [StatisticsComponent, TasksBoardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

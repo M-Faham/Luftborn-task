@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { StatisticsService } from '../../../features/dashboard/services/statistics.service';
 import { StatisticsComponent } from './statistics.component';
-import { StatisticsService } from '../../services/statistics.service';
 
 describe('StatisticsComponent', () => {
   let component: StatisticsComponent;

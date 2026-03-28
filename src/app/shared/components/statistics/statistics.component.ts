@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
-import { StatisticsService } from '../../services/statistics.service';
-import { StatsCardComponent } from '../../../../shared/components';
-import { Statistic } from '../../../../shared';
+import { StatsCardComponent } from '../stats-card/stats-card.component';
+import { Statistic } from '../../models';
+import { StatisticsService } from '../../../features/dashboard/services/statistics.service';
 
 @Component({
   selector: 'lb-statistics',

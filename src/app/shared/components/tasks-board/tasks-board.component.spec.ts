@@ -1,13 +1,13 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
-import { TasksComponent } from './tasks.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TaskService } from '../../services/task.service';
-import { Task } from '../../../../shared/models';
-import { TaskStatusEnum, TaskPriorityEnum } from '../../../../shared/enums';
 import { of, Subject } from 'rxjs';
+import { TaskService } from '../../../features/dashboard/services/task.service';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../enums';
+import { Task } from '../../models';
+import { TasksBoardComponent } from './tasks-board.component';
 
 function makeTask(overrides: Partial<Task> = {}): Task {
   return {
@@ -27,7 +27,7 @@ function makeTask(overrides: Partial<Task> = {}): Task {
 }
 
 describe('TasksComponent', () => {
-  let component: TasksComponent;
+  let component: TasksBoardComponent;
   const tasksSignal = signal<Task[]>([]);
   const isLoadingSignal = signal<boolean>(true);
 
@@ -55,10 +55,10 @@ describe('TasksComponent', () => {
     vi.clearAllMocks();
 
     await TestBed.configureTestingModule({
-      imports: [TasksComponent],
+      imports: [TasksBoardComponent],
       providers: [provideTranslateService({ fallbackLang: 'en' }), DialogService],
     })
-      .overrideComponent(TasksComponent, {
+      .overrideComponent(TasksBoardComponent, {
         set: {
           providers: [
             { provide: TaskService, useValue: mockTaskService },
@@ -70,7 +70,7 @@ describe('TasksComponent', () => {
       })
       .compileComponents();
 
-    const fixture = TestBed.createComponent(TasksComponent);
+    const fixture = TestBed.createComponent(TasksBoardComponent);
     component = fixture.componentInstance;
 
     // Get injected services from the component injector

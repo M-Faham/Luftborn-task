@@ -11,30 +11,26 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { DialogService } from 'primeng/dynamicdialog';
-import { NewTaskService } from '../../../../core/services/new-task.service';
-import { SearchService } from '../../../../core/services/search.service';
-import {
-  Assignee,
-  Task,
-  TaskFormComponent,
-  TaskFormResult,
-  TasksListComponent,
-} from '../../../../shared';
-import { TaskPriorityEnum, TaskStatusEnum } from '../../../../shared/enums';
-import { TaskService } from '../../services/task.service';
+import { NewTaskService } from '../../../core/services/new-task.service';
+import { SearchService } from '../../../core/services/search.service';
+import { TaskService } from '../../../features/dashboard/services/task.service';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../enums';
+import { Assignee, Task } from '../../models';
 import { FilterBarComponent } from '../filter-bar/filter-bar.component';
+import { TaskFormComponent, TaskFormResult } from '../task-form/task-form.component';
+import { TasksListComponent } from '../tasks-list/tasks-list.component';
 
 const STATUS_ORDER = [TaskStatusEnum.Todo, TaskStatusEnum.InProgress, TaskStatusEnum.Done];
 
 @Component({
-  selector: 'lb-tasks',
+  selector: 'lb-tasks-board',
   imports: [TasksListComponent, ConfirmDialog, FilterBarComponent],
-  templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.scss',
+  templateUrl: './tasks-board.component.html',
+  styleUrl: './tasks-board.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TaskService, ConfirmationService],
 })
-export class TasksComponent {
+export class TasksBoardComponent {
   readonly isLoading: Signal<boolean>;
   readonly todoTasks: Signal<Task[]>;
   readonly inProgressTasks: Signal<Task[]>;

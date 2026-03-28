@@ -1,9 +1,9 @@
 import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../enums';
+import { Assignee } from '../../models';
 import { FilterBarComponent } from './filter-bar.component';
-import { Assignee } from '../../../../shared/models';
-import { TaskPriorityEnum, TaskStatusEnum } from '../../../../shared/enums';
 
 const MOCK_USERS: Assignee[] = [
   { id: 'user-001', name: 'John Doe', avatar: 'JD', email: 'john@company.com' },

@@ -17,9 +17,12 @@ export const routes: Routes = [
       {
         path: 'tasks',
         loadComponent: () =>
-          import('./features/dashboard/components/tasks/tasks.component').then(
-            (c) => c.TasksComponent,
-          ),
+          import('./features/tasks/tasks.component').then((c) => c.TasksPageComponent),
+      },
+      {
+        path: 'analytics',
+        loadComponent: () =>
+          import('./features/analytics/analytics.component').then((c) => c.AnalyticsComponent),
       },
       { path: '**', redirectTo: 'dashboard' },
     ],

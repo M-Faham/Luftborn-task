@@ -1,6 +1,6 @@
 <aside class="side-menu">
   <nav class="side-menu__nav">
-    @for (item of menuItems; track item.route) {
+    @for (item of menuItems; track item.label) {
       <a
         class="side-menu__item"
         [routerLink]="item.route"
