@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:coverage": "ng test --configuration=coverage",
     "serve:ssr:luftborn-task": "node dist/luftborn-task/server/server.mjs",
     "prepare": "husky",
     "lint-fix": "npx eslint \"./projects/**/*.{js,ts,html}\" --quiet --fix",
