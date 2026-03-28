@@ -22,7 +22,7 @@
         (moveBackward)="moveBackward.emit($event)"
       />
     } @empty {
-      <p>No tasks found.</p>
+      <p>{{ 'tasks.no_tasks' | translate }}</p>
     }
   }
 </div>

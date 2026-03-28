@@ -3,6 +3,6 @@
 <div class="chart-card flex flex-col gap-4" [ngClass]="{ 'hidden!': isLoading() }">
   <h3 class="chart-card__title">{{ title() | translate }}</h3>
   <div class="h-72">
-    <canvas #canvas></canvas>
+    <canvas #canvas role="img" [attr.aria-label]="title() | translate"></canvas>
   </div>
 </div>

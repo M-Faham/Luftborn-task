@@ -4,7 +4,9 @@
       type="button"
       class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors shrink-0"
       (click)="toggleMenu()"
-      aria-label="Toggle menu"
+      [attr.aria-label]="menuService.isOpen() ? 'Close navigation menu' : 'Open navigation menu'"
+      [attr.aria-expanded]="menuService.isOpen()"
+      aria-controls="side-menu"
     >
       @if (menuService.isOpen()) {
         <span class="text-xl leading-none">✕</span>
@@ -23,8 +25,9 @@
 
   <div class="top-bar__search">
     <input
-      type="text"
+      type="search"
       class="top-bar__search-input"
+      [attr.aria-label]="'layout.search_tasks' | translate"
       [placeholder]="'🔍 ' + ('layout.search_tasks' | translate)"
       (input)="onSearch($event)"
     />

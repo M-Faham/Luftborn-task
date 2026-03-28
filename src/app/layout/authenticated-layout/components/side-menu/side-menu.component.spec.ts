@@ -92,7 +92,7 @@ describe('SideMenuComponent', () => {
       menuService.isOpen.set(true);
       fixture.detectChanges();
 
-      const backdrop = fixture.nativeElement.querySelector('[aria-hidden="true"]');
+      const backdrop = fixture.nativeElement.querySelector('div[aria-hidden="true"]');
       expect(backdrop).toBeTruthy();
     });
 
@@ -100,7 +100,7 @@ describe('SideMenuComponent', () => {
       menuService.isOpen.set(false);
       fixture.detectChanges();
 
-      const backdrop = fixture.nativeElement.querySelector('[aria-hidden="true"]');
+      const backdrop = fixture.nativeElement.querySelector('div[aria-hidden="true"]');
       expect(backdrop).toBeFalsy();
     });
   });

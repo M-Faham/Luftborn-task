@@ -87,7 +87,7 @@ describe('TasksListComponent', () => {
     it('should show "No tasks found." when tasks array is empty', async () => {
       await createComponent([], TaskStatusEnum.Todo, false);
       const el: HTMLElement = fixture.nativeElement;
-      expect(el.textContent).toContain('No tasks found.');
+      expect(el.textContent).toContain('tasks.no_tasks');
     });
   });
 

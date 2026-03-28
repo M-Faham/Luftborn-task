@@ -1,10 +1,11 @@
 <div class="filter-bar">
-  <div class="filter-bar__tabs">
+  <div class="filter-bar__tabs" role="group" aria-label="Filter by status">
     @for (tab of statusTabs; track tab.value) {
       <button
         type="button"
         class="filter-bar__tab"
         [class.filter-bar__tab--active]="activeStatus() === tab.value"
+        [attr.aria-pressed]="activeStatus() === tab.value"
         (click)="onStatusClick(tab.value)"
       >
         {{ tab.label | translate }}
@@ -20,6 +21,7 @@
       optionLabel="label"
       optionValue="value"
       [placeholder]="'filter_bar.priority' | translate"
+      [ariaLabel]="'filter_bar.priority' | translate"
       class="filter-bar__select"
     >
       <ng-template #selectedItem let-selectedOption>
@@ -36,6 +38,7 @@
       (ngModelChange)="onAssigneeChange($event)"
       optionLabel="name"
       [placeholder]="'filter_bar.assignee' | translate"
+      [ariaLabel]="'filter_bar.assignee' | translate"
       class="filter-bar__select"
     >
       <ng-template #selectedItem let-selectedOption>

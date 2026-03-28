@@ -23,11 +23,11 @@
     @let dueDateInfo = task() | dueDate;
     <div class="card-status" [pTooltip]="task().dueDate">
       @if (dueDateInfo.type === 'overdue') {
-        ⚠
+        <span aria-hidden="true">⚠</span>
       } @else if (dueDateInfo.type === 'done') {
-        ✅
+        <span aria-hidden="true">✅</span>
       } @else {
-        📅
+        <span aria-hidden="true">📅</span>
       }
       <span>{{ dueDateInfo.labelKey | translate: dueDateInfo.labelParams }}</span>
     </div>
@@ -42,7 +42,7 @@
   <div class="card-footer">
     <div class="assignee">
       @if (task().assignee.avatar) {
-        <div class="avatar avatar_sm">{{ task().assignee.avatar }}</div>
+        <div class="avatar avatar_sm" aria-hidden="true">{{ task().assignee.avatar }}</div>
       }
       <span class="assignee-name">@{{ task().assignee.name }}</span>
     </div>

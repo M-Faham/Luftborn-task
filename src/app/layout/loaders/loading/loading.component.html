@@ -1,5 +1,10 @@
 @if (isLoading()) {
-  <div class="fixed inset-0 flex items-center justify-center bg-black/50 z-9998 spinner-wrapper">
+  <div
+    class="fixed inset-0 flex items-center justify-center bg-black/50 z-9998 spinner-wrapper"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading"
+  >
     <lb-loader />
   </div>
 }
