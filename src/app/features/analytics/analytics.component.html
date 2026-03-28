@@ -1,1 +1,27 @@
 <lb-statistics></lb-statistics>
+
+<div class="mt-12">
+  <div class="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+    <lb-chart-card
+      class="h-96!"
+      [title]="'analytics.by_priority'"
+      type="doughnut"
+      [dataset]="byPriority()"
+      [isLoading]="isLoading()"
+    />
+    <lb-chart-card
+      class="h-96!"
+      [title]="'analytics.by_status'"
+      type="bar"
+      [dataset]="byStatus()"
+      [isLoading]="isLoading()"
+    />
+    <lb-chart-card
+      class="h-96!"
+      [title]="'analytics.by_assignee'"
+      type="bar"
+      [dataset]="byAssignee()"
+      [isLoading]="isLoading()"
+    />
+  </div>
+</div>

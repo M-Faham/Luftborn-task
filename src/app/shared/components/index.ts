@@ -1,3 +1,4 @@
+export * from './chart-card/chart-card.component';
 export * from './statistics/statistics.component';
 export * from './stats-card/stats-card.component';
 export * from './task-card/task-card.component';

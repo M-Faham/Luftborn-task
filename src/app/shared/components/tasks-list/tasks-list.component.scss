@@ -3,6 +3,7 @@
   background: var(--color-white-solid, #ffffff);
   border-radius: 8px;
   width: 523px;
+  min-width: 0;
   padding: 16px;
 
   .tasks_list_header {
@@ -25,5 +26,11 @@
     padding-left: 8px;
     font-weight: Bold;
     color: #212121;
+  }
+}
+
+@media (max-width: 768px) {
+  .tasks_list {
+    width: 100%;
   }
 }

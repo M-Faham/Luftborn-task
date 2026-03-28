@@ -66,3 +66,9 @@
 .side-menu__footer {
   padding-top: 12px;
 }
+
+@media (max-width: 768px) {
+  :host {
+    display: none;
+  }
+}

@@ -1,16 +1,22 @@
 import { http, HttpResponse } from 'msw';
-import { MOCK_TASKS } from './data/tasks';
-import { MOCK_STATISTICS } from './data/statistics';
-import { MOCK_USERS } from './data/users';
+import { TaskPriorityEnum, TaskStatusEnum } from '../app/shared/enums';
 import { Task } from '../app/shared/models';
-import { TaskStatusEnum, TaskPriorityEnum } from '../app/shared/enums';
+import { MOCK_STATISTICS } from './data/statistics';
+import { MOCK_TASKS } from './data/tasks';
+import { MOCK_USERS } from './data/users';
+
+/** Simulates realistic network latency. GET requests are faster than mutations. */
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const READ_DELAY = 2000;
+const WRITE_DELAY = 2000;
 
 // In-memory store so POST/PATCH mutations persist during the session
 let tasks = [...MOCK_TASKS.tasks];
 
 export const handlers = [
   // GET /api/tasks — list all tasks
-  http.get('/api/tasks', () => {
+  http.get('/api/tasks', async () => {
+    await delay(READ_DELAY);
     return HttpResponse.json({
       tasks,
       meta: {
@@ -21,7 +27,8 @@ export const handlers = [
   }),
 
   // GET /api/tasks/:id — single task
-  http.get('/api/tasks/:id', ({ params }) => {
+  http.get('/api/tasks/:id', async ({ params }) => {
+    await delay(READ_DELAY);
     const task = tasks.find((t) => t.id === params['id']);
     if (!task) {
       return HttpResponse.json({ message: 'Task not found' }, { status: 404 });
@@ -31,6 +38,7 @@ export const handlers = [
 
   // POST /api/tasks — create task
   http.post('/api/tasks', async ({ request }) => {
+    await delay(WRITE_DELAY);
     const body = (await request.json()) as Partial<Task>;
     const newTask: Task = {
       id: String(Date.now()),
@@ -57,6 +65,7 @@ export const handlers = [
 
   // PATCH /api/tasks/:id — update task
   http.patch('/api/tasks/:id', async ({ params, request }) => {
+    await delay(WRITE_DELAY);
     const body = (await request.json()) as Partial<Task>;
     const index = tasks.findIndex((t) => t.id === params['id']);
     if (index === -1) {
@@ -67,7 +76,8 @@ export const handlers = [
   }),
 
   // DELETE /api/tasks/:id
-  http.delete('/api/tasks/:id', ({ params }) => {
+  http.delete('/api/tasks/:id', async ({ params }) => {
+    await delay(WRITE_DELAY);
     const index = tasks.findIndex((t) => t.id === params['id']);
     if (index === -1) {
       return HttpResponse.json({ message: 'Task not found' }, { status: 404 });
@@ -77,12 +87,14 @@ export const handlers = [
   }),
 
   // GET /api/statistics
-  http.get('/api/statistics', () => {
+  http.get('/api/statistics', async () => {
+    await delay(READ_DELAY);
     return HttpResponse.json(MOCK_STATISTICS);
   }),
 
   // GET /api/users — list all assignable users
-  http.get('/api/users', () => {
+  http.get('/api/users', async () => {
+    await delay(READ_DELAY);
     return HttpResponse.json(MOCK_USERS);
   }),
 ];

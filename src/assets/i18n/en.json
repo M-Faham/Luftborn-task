@@ -79,5 +79,12 @@
     "Completed": "Completed",
     "Total Tasks": "Total Tasks",
     "Overdue": "Overdue"
+  },
+  "analytics": {
+    "title": "Task Analytics",
+    "loading": "Loading charts...",
+    "by_priority": "Tasks by Priority",
+    "by_status": "Tasks by Status",
+    "by_assignee": "Tasks by Assignee"
   }
 }
