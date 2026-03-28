@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,18 +9,17 @@ import {
   Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule, JsonPipe } from '@angular/common';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { Task } from '../../models';
-import { TaskStatusEnum } from '../../enums';
-import { DueDatePipe } from '../../pipes';
-import { Tooltip } from 'primeng/tooltip';
-import { SpeedDialModule } from 'primeng/speeddial';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { Tooltip } from 'primeng/tooltip';
+import { TaskStatusEnum } from '../../enums';
+import { Task } from '../../models';
+import { DueDatePipe } from '../../pipes';
 
 @Component({
   selector: 'lb-task-card',
-  imports: [CommonModule, DueDatePipe, TranslatePipe, Tooltip, SpeedDialModule, JsonPipe],
+  imports: [CommonModule, DueDatePipe, TranslatePipe, Tooltip, SpeedDialModule],
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

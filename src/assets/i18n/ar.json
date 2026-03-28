@@ -54,6 +54,8 @@
     "description_placeholder": "أدخل وصف المهمة",
     "priority": "الأولوية",
     "status": "الحالة",
+    "assignee": "المسؤول",
+    "assignee_placeholder": "اختر المسؤول",
     "due_date": "تاريخ الاستحقاق",
     "tags": "العلامات",
     "tags_placeholder": "أدخل العلامات مفصولة بفواصل",

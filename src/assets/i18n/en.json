@@ -54,6 +54,8 @@
     "description_placeholder": "Enter task description",
     "priority": "Priority",
     "status": "Status",
+    "assignee": "Assignee",
+    "assignee_placeholder": "Select assignee",
     "due_date": "Due Date",
     "tags": "Tags",
     "tags_placeholder": "Enter tags separated by commas",

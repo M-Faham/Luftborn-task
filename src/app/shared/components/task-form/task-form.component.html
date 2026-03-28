@@ -59,6 +59,30 @@
   </div>
 
   <div class="flex flex-col gap-1">
+    <label for="assignee">{{ 'task_form.assignee' | translate }}</label>
+    <p-select
+      id="assignee"
+      formControlName="assignee"
+      [options]="users()"
+      optionLabel="name"
+      [placeholder]="'task_form.assignee_placeholder' | translate"
+    >
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2">
+          <span class="avatar avatar_sm">{{ selectedOption.avatar }}</span>
+          <span>{{ selectedOption.name }}</span>
+        </div>
+      </ng-template>
+      <ng-template #item let-option>
+        <div class="flex items-center gap-2">
+          <span class="avatar avatar_sm">{{ option.avatar }}</span>
+          <span>{{ option.name }}</span>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <div class="flex flex-col gap-1">
     <label for="dueDate">{{ 'task_form.due_date' | translate }}</label>
     <p-datepicker
       id="dueDate"

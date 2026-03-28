@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { MOCK_TASKS } from './data/tasks';
 import { MOCK_STATISTICS } from './data/statistics';
+import { MOCK_USERS } from './data/users';
 import { Task } from '../app/shared/models';
 import { TaskStatusEnum, TaskPriorityEnum } from '../app/shared/enums';
 
@@ -78,5 +79,10 @@ export const handlers = [
   // GET /api/statistics
   http.get('/api/statistics', () => {
     return HttpResponse.json(MOCK_STATISTICS);
+  }),
+
+  // GET /api/users — list all assignable users
+  http.get('/api/users', () => {
+    return HttpResponse.json(MOCK_USERS);
   }),
 ];
