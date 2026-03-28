@@ -52,10 +52,8 @@
       </ng-template>
     </p-select>
 
-    <p-button
-      [label]="'filter_bar.new_task' | translate"
-      icon="pi pi-plus"
-      (onClick)="onNewTask()"
-    />
+    <button class="create_button px-6! h-full! py-3!" (click)="onNewTask()">
+      + {{ 'filter_bar.new_task' | translate }}
+    </button>
   </div>
 </div>

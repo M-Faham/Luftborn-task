@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { TaskPriorityEnum, TaskStatusEnum } from '../../../../shared/enums';
 import { Assignee } from '../../../../shared/models';
@@ -14,7 +13,7 @@ export interface StatusTab {
 @Component({
   selector: 'lb-filter-bar',
   standalone: true,
-  imports: [TranslatePipe, SelectModule, ButtonModule, FormsModule],
+  imports: [TranslatePipe, SelectModule, FormsModule],
   templateUrl: './filter-bar.component.html',
   styleUrl: './filter-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -17,4 +17,20 @@ button {
   &.bordered {
     border: 1px solid gray;
   }
+  &.create_button {
+    background-color: var(--lb-accent);
+    color: #ffffff;
+    line-height: 13px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px;
+    height: 32px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: #1565c0;
+    }
+  }
 }
