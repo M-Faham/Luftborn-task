@@ -93,7 +93,7 @@ export class TasksBoardComponent {
 
     effect(() => {
       const tick = this.newTaskService.trigger();
-      if (tick > 0) this.onCreateTask();
+      if (tick) this.onCreateTask();
     });
   }
 

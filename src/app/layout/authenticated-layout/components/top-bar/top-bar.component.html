@@ -1,13 +1,26 @@
 <header class="top-bar">
-  <!-- Left: Logo + App Name -->
-  <div class="top-bar__brand">
-    <div class="top-bar__logo" aria-hidden="true">
-      <span class="top-bar__logo-inner"></span>
+  <div class="flex">
+    <button
+      type="button"
+      class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors shrink-0"
+      (click)="toggleMenu()"
+      aria-label="Toggle menu"
+    >
+      @if (menuService.isOpen()) {
+        <span class="text-xl leading-none">✕</span>
+      } @else {
+        <span class="text-xl leading-none">☰</span>
+      }
+    </button>
+
+    <div class="top-bar__brand">
+      <div class="top-bar__logo" aria-hidden="true">
+        <span class="top-bar__logo-inner"></span>
+      </div>
+      <span class="top-bar__app-name">Task Manager</span>
     </div>
-    <span class="top-bar__app-name">Task Manager</span>
   </div>
 
-  <!-- Center: Search -->
   <div class="top-bar__search">
     <input
       type="text"

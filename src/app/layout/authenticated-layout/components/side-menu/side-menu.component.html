@@ -1,4 +1,13 @@
-<aside class="side-menu">
+<!-- Mobile backdrop -->
+@if (menuService.isOpen()) {
+  <div
+    class="fixed bg-black/40 z-10 md:hidden"
+    (click)="menuService.close()"
+    aria-hidden="true"
+  ></div>
+}
+
+<aside class="side-menu" [class.side-menu--open]="menuService.isOpen()">
   <nav class="side-menu__nav">
     @for (item of menuItems; track item.label) {
       <a
@@ -6,6 +15,7 @@
         [routerLink]="item.route"
         routerLinkActive="side-menu__item--active"
         [ngClass]="{ disabled: item.disabled }"
+        (click)="menuService.close()"
       >
         <span class="side-menu__icon">{{ item.icon }}</span>
         <span class="side-menu__label">{{ item.label | translate }}</span>

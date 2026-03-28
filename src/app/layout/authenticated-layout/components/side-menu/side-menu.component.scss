@@ -2,6 +2,16 @@
   z-index: 1;
 }
 
+:host-context([dir='rtl']) .side-menu {
+  right: 0;
+  left: auto;
+  transform: translateX(100%);
+
+  &--open {
+    transform: translateX(0);
+  }
+}
+
 .side-menu {
   display: flex;
   flex-direction: column;
@@ -69,6 +79,21 @@
 
 @media (max-width: 768px) {
   :host {
-    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: calc(100dvh - 64px);
+    z-index: 20;
+  }
+
+  .side-menu {
+    width: 100vw;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+
+    &--open {
+      transform: translateX(0);
+    }
   }
 }
