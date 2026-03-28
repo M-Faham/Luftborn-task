@@ -65,6 +65,14 @@
     "create_success": "تم إنشاء المهمة بنجاح",
     "update_success": "تم تحديث المهمة بنجاح"
   },
+  "filter_bar": {
+    "all": "الكل",
+    "priority": "الأولوية",
+    "assignee": "المسؤول",
+    "all_priorities": "كل الأولويات",
+    "all_assignees": "كل المسؤولين",
+    "new_task": "+ مهمة جديدة"
+  },
   "stats": {
     "same_as_yesterday": "مثل الأمس",
     "In Progress": "قيد التنفيذ",

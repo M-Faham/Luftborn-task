@@ -35,6 +35,7 @@ describe('DashboardComponent', () => {
       .match('/api/tasks')
       .forEach((r) => r.flush({ tasks: [], meta: { totalCount: 0, lastUpdated: '' } }));
     httpMock.match('/api/statistics').forEach((r) => r.flush({ statistics: [], lastUpdated: '' }));
+    httpMock.match('/api/users').forEach((r) => r.flush([]));
     httpMock.verify();
     invalidateCache();
     TestBed.resetTestingModule();

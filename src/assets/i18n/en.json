@@ -65,6 +65,14 @@
     "create_success": "Task created successfully",
     "update_success": "Task updated successfully"
   },
+  "filter_bar": {
+    "all": "All",
+    "priority": "Priority",
+    "assignee": "Assignee",
+    "all_priorities": "All Priorities",
+    "all_assignees": "All Assignees",
+    "new_task": "+ New Task"
+  },
   "stats": {
     "same_as_yesterday": "Same As Yesterday",
     "In Progress": "In Progress",

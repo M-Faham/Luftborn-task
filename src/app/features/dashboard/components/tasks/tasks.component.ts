@@ -1,17 +1,33 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { TaskService } from '../../services/task.service';
-import { Task, TasksListComponent, TaskFormComponent, TaskFormResult } from '../../../../shared';
-import { TaskStatusEnum } from '../../../../shared/enums';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  Signal,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { SearchService } from '../../../../core/services/search.service';
+import {
+  Assignee,
+  Task,
+  TaskFormComponent,
+  TaskFormResult,
+  TasksListComponent,
+} from '../../../../shared';
+import { TaskPriorityEnum, TaskStatusEnum } from '../../../../shared/enums';
+import { TaskService } from '../../services/task.service';
+import { FilterBarComponent } from '../filter-bar/filter-bar.component';
 
 const STATUS_ORDER = [TaskStatusEnum.Todo, TaskStatusEnum.InProgress, TaskStatusEnum.Done];
 
 @Component({
   selector: 'lb-tasks',
-  imports: [TasksListComponent, ConfirmDialog],
+  imports: [TasksListComponent, ConfirmDialog, FilterBarComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,9 +39,25 @@ export class TasksComponent {
   readonly inProgressTasks: Signal<Task[]>;
   readonly doneTasks: Signal<Task[]>;
 
+  readonly users: Signal<Assignee[]>;
+
+  readonly filterStatus = signal<TaskStatusEnum | null>(null);
+
+  readonly filters: Signal<{
+    status: TaskStatusEnum | null;
+    priority: TaskPriorityEnum | null;
+    assignee: string | null;
+    search: string;
+  }>;
+
   protected readonly statusEnum = TaskStatusEnum;
 
+  protected readonly showTodo: Signal<boolean>;
+  protected readonly showInProgress: Signal<boolean>;
+  protected readonly showDone: Signal<boolean>;
+
   private readonly taskService = inject(TaskService);
+  private readonly searchService = inject(SearchService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
   private readonly translate = inject(TranslateService);
@@ -33,6 +65,8 @@ export class TasksComponent {
 
   constructor() {
     this.isLoading = this.taskService.isLoading;
+    this.filters = this.taskService.filters;
+
     this.todoTasks = computed(() =>
       this.taskService.tasks().filter((t) => t.status === TaskStatusEnum.Todo),
     );
@@ -42,6 +76,55 @@ export class TasksComponent {
     this.doneTasks = computed(() =>
       this.taskService.tasks().filter((t) => t.status === TaskStatusEnum.Done),
     );
+
+    this.showTodo = computed(
+      () => !this.filterStatus() || this.filterStatus() === TaskStatusEnum.Todo,
+    );
+    this.showInProgress = computed(
+      () => !this.filterStatus() || this.filterStatus() === TaskStatusEnum.InProgress,
+    );
+    this.showDone = computed(
+      () => !this.filterStatus() || this.filterStatus() === TaskStatusEnum.Done,
+    );
+
+    this.users = this.taskService.users;
+
+    effect(() => {
+      this.taskService.setFilters({ search: this.searchService.query() });
+    });
+  }
+
+  onStatusFilter(status: TaskStatusEnum | null): void {
+    this.filterStatus.set(status);
+  }
+
+  onPriorityFilter(priority: TaskPriorityEnum | null): void {
+    this.taskService.setFilters({ priority });
+  }
+
+  onAssigneeFilter(assignee: string | null): void {
+    this.taskService.setFilters({ assignee });
+  }
+
+  onCreateTask(): void {
+    const ref = this.dialogService.open(TaskFormComponent, {
+      header: this.translate.instant('task_form.create_title'),
+      width: '500px',
+      data: {},
+    });
+
+    ref?.onClose.subscribe((result?: TaskFormResult) => {
+      if (result?.changes) {
+        this.taskService.create(result.changes).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translate.instant('task_form.create_success'),
+            });
+          },
+        });
+      }
+    });
   }
 
   onDeleteTask(task: Task): void {

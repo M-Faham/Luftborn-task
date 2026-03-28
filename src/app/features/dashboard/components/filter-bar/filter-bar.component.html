@@ -1,0 +1,61 @@
+<div class="filter-bar">
+  <div class="filter-bar__tabs">
+    @for (tab of statusTabs; track tab.value) {
+      <button
+        type="button"
+        class="filter-bar__tab"
+        [class.filter-bar__tab--active]="activeStatus() === tab.value"
+        (click)="onStatusClick(tab.value)"
+      >
+        {{ tab.label | translate }}
+      </button>
+    }
+  </div>
+
+  <div class="filter-bar__actions">
+    <p-select
+      [options]="priorityOptions"
+      [ngModel]="activePriority()"
+      (ngModelChange)="onPriorityChange($event)"
+      optionLabel="label"
+      optionValue="value"
+      [placeholder]="'filter_bar.priority' | translate"
+      class="filter-bar__select"
+    >
+      <ng-template #selectedItem let-selectedOption>
+        {{ selectedOption.label | translate }}
+      </ng-template>
+      <ng-template #item let-option>
+        {{ option.label | translate }}
+      </ng-template>
+    </p-select>
+
+    <p-select
+      [options]="assigneeOptions()"
+      [ngModel]="selectedAssignee()"
+      (ngModelChange)="onAssigneeChange($event)"
+      optionLabel="name"
+      [placeholder]="'filter_bar.assignee' | translate"
+      class="filter-bar__select"
+    >
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2">
+          <span class="avatar avatar_sm">{{ selectedOption.avatar }}</span>
+          <span>{{ selectedOption.name || ('filter_bar.all_assignees' | translate) }}</span>
+        </div>
+      </ng-template>
+      <ng-template #item let-option>
+        <div class="flex items-center gap-2">
+          <span class="avatar avatar_sm">{{ option.avatar }}</span>
+          <span>{{ option.name || ('filter_bar.all_assignees' | translate) }}</span>
+        </div>
+      </ng-template>
+    </p-select>
+
+    <p-button
+      [label]="'filter_bar.new_task' | translate"
+      icon="pi pi-plus"
+      (onClick)="onNewTask()"
+    />
+  </div>
+</div>

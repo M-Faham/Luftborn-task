@@ -1,11 +1,10 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Task, TasksResponse } from '../../../shared/models';
-import { TaskPriorityEnum, TaskStatusEnum } from '../../../shared/enums';
 import { invalidateCache } from '../../../core/interceptors/caching.interceptor';
-import { TaskFilters } from '../shared/models/task';
+import { Assignee, Task, TasksResponse } from '../../../shared/models';
 import { INITIAL_FILTERS } from '../shared/constants/intial-filters';
+import { TaskFilters } from '../shared/models/task';
 
 @Injectable()
 export class TaskService {
@@ -14,27 +13,37 @@ export class TaskService {
   readonly http = inject(HttpClient);
   readonly baseUrl = '/api/tasks';
 
+  readonly users = signal<Assignee[]>([]);
+
   readonly _filters = signal<TaskFilters>(INITIAL_FILTERS);
-  readonly tasks = computed(() => this.tasksResource.value()?.tasks ?? []);
+
+  readonly allTasks = computed(() => this.tasksResource.value()?.tasks ?? []);
+
+  readonly tasks = computed(() => {
+    let result = this.allTasks();
+    const f = this._filters();
+    if (f.priority) result = result.filter((t) => t.priority === f.priority);
+    if (f.assignee) result = result.filter((t) => t.assignee?.id === f.assignee);
+    if (f.search) {
+      const q = f.search.toLowerCase();
+      result = result.filter(
+        (t) => t.title.toLowerCase().includes(q) || t.description.toLowerCase().includes(q),
+      );
+    }
+    return result;
+  });
 
   readonly totalCount = computed(() => this.tasksResource.value()?.meta?.totalCount ?? 0);
 
   readonly isLoading = computed(() => this.tasksResource.isLoading());
 
-  readonly tasksResource = httpResource<TasksResponse>(() => {
-    const f = this._filters();
-    const params: Record<string, string> = {};
-    if (f.status) params['status'] = f.status;
-    if (f.priority) params['priority'] = f.priority;
-    if (f.assignee) params['assignee'] = f.assignee;
-    if (f.search) params['q'] = f.search;
-    return { url: this.baseUrl, params };
-  });
+  readonly tasksResource = httpResource<TasksResponse>(() => this.baseUrl);
 
   readonly error = this.tasksResource.error;
 
   constructor() {
     this.filters = this._filters.asReadonly();
+    this.http.get<Assignee[]>('/api/users').subscribe((u) => this.users.set(u));
   }
 
   setFilters(patch: Partial<TaskFilters>): void {

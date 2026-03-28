@@ -13,6 +13,7 @@
       type="text"
       class="top-bar__search-input"
       [placeholder]="'🔍 ' + ('layout.search_tasks' | translate)"
+      (input)="onSearch($event)"
     />
   </div>
 

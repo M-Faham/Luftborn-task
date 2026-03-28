@@ -36,6 +36,7 @@ describe('TasksComponent', () => {
     totalCount: signal(0).asReadonly(),
     filters: signal({ status: null, priority: null, assignee: null, search: '' }).asReadonly(),
     error: signal(undefined).asReadonly(),
+    users: signal([]).asReadonly(),
     setFilters: vi.fn(),
     resetFilters: vi.fn(),
     create: vi.fn(),

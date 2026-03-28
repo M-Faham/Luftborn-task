@@ -1,7 +1,7 @@
 .statistics-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  overflow-x: scroll;
+  overflow-x: auto;
   gap: 24px;
   padding: 20px;
 }

@@ -4,6 +4,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
+import { SearchService } from '../../../../core/services/search.service';
 
 @Component({
   selector: 'lb-top-bar',
@@ -17,6 +18,12 @@ export class TopBarComponent {
   currentLang = signal<string>('en');
 
   private readonly translate = inject(TranslateService);
+  private readonly searchService = inject(SearchService);
+
+  onSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   toggleLanguage() {
     const next = this.currentLang() === 'en' ? 'ar' : 'en';

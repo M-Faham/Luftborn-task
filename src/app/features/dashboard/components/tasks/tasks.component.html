@@ -1,28 +1,45 @@
+<lb-filter-bar
+  [activeStatus]="filterStatus()"
+  [activePriority]="filters().priority"
+  [activeAssignee]="filters().assignee"
+  [users]="users()"
+  (statusChange)="onStatusFilter($event)"
+  (priorityChange)="onPriorityFilter($event)"
+  (assigneeChange)="onAssigneeFilter($event)"
+  (newTask)="onCreateTask()"
+/>
+
 <div class="tasks-grid">
-  <lb-tasks-list
-    [tasks]="todoTasks()"
-    [status]="statusEnum.Todo"
-    (delete)="onDeleteTask($event)"
-    (update)="onUpdateTask($event)"
-    (moveForward)="onMoveForward($event)"
-    (moveBackward)="onMoveBackward($event)"
-  />
-  <lb-tasks-list
-    [tasks]="inProgressTasks()"
-    [status]="statusEnum.InProgress"
-    (delete)="onDeleteTask($event)"
-    (update)="onUpdateTask($event)"
-    (moveForward)="onMoveForward($event)"
-    (moveBackward)="onMoveBackward($event)"
-  />
-  <lb-tasks-list
-    [tasks]="doneTasks()"
-    [status]="statusEnum.Done"
-    (delete)="onDeleteTask($event)"
-    (update)="onUpdateTask($event)"
-    (moveForward)="onMoveForward($event)"
-    (moveBackward)="onMoveBackward($event)"
-  />
+  @if (showTodo()) {
+    <lb-tasks-list
+      [tasks]="todoTasks()"
+      [status]="statusEnum.Todo"
+      (delete)="onDeleteTask($event)"
+      (update)="onUpdateTask($event)"
+      (moveForward)="onMoveForward($event)"
+      (moveBackward)="onMoveBackward($event)"
+    />
+  }
+  @if (showInProgress()) {
+    <lb-tasks-list
+      [tasks]="inProgressTasks()"
+      [status]="statusEnum.InProgress"
+      (delete)="onDeleteTask($event)"
+      (update)="onUpdateTask($event)"
+      (moveForward)="onMoveForward($event)"
+      (moveBackward)="onMoveBackward($event)"
+    />
+  }
+  @if (showDone()) {
+    <lb-tasks-list
+      [tasks]="doneTasks()"
+      [status]="statusEnum.Done"
+      (delete)="onDeleteTask($event)"
+      (update)="onUpdateTask($event)"
+      (moveForward)="onMoveForward($event)"
+      (moveBackward)="onMoveBackward($event)"
+    />
+  }
 </div>
 
 <p-confirmDialog />

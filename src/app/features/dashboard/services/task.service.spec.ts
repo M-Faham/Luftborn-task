@@ -35,13 +35,37 @@ describe('TaskService', () => {
   let service: TaskService;
   let httpMock: HttpTestingController;
 
+  const ALL_TASKS = [
+    makeTask({
+      id: 't1',
+      title: 'Buy groceries',
+      description: 'Milk and eggs',
+      priority: TaskPriorityEnum.Low,
+      status: TaskStatusEnum.Todo,
+      assignee: { id: 'user-1', name: 'John', avatar: '', email: '' },
+    }),
+    makeTask({
+      id: 't2',
+      title: 'Fix urgent bug',
+      description: 'Production crash',
+      priority: TaskPriorityEnum.High,
+      status: TaskStatusEnum.InProgress,
+      assignee: { id: 'user-2', name: 'Jane', avatar: '', email: '' },
+    }),
+    makeTask({
+      id: 't3',
+      title: 'Write docs',
+      description: 'API documentation',
+      priority: TaskPriorityEnum.Medium,
+      status: TaskStatusEnum.Done,
+      assignee: { id: 'user-1', name: 'John', avatar: '', email: '' },
+    }),
+  ];
+
   async function flushInitial(tasks: Task[] = [], totalCount?: number): Promise<void> {
     TestBed.tick();
+    httpMock.match('/api/users').forEach((r) => r.flush([]));
     httpMock.expectOne('/api/tasks').flush(makeResponse(tasks, totalCount));
-    await TestBed.inject(ApplicationRef).whenStable();
-  }
-
-  async function stabilize(): Promise<void> {
     await TestBed.inject(ApplicationRef).whenStable();
   }
 
@@ -55,6 +79,7 @@ describe('TaskService', () => {
   });
 
   afterEach(() => {
+    httpMock.match('/api/users').forEach((r) => r.flush([]));
     httpMock.verify();
     invalidateCache();
   });
@@ -105,92 +130,92 @@ describe('TaskService', () => {
     });
   });
 
-  describe('filters', () => {
+  describe('client-side filters', () => {
     it('should expose initial filters as readonly', async () => {
       await flushInitial();
       expect(service.filters()).toEqual(INITIAL_FILTERS);
     });
 
-    it('should update filters and trigger a new request with query params', async () => {
-      await flushInitial();
-
-      service.setFilters({ status: TaskStatusEnum.InProgress });
-      TestBed.tick();
-
-      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('status')).toBe('in_progress');
-      req.flush(makeResponse());
-      await stabilize();
-    });
-
-    it('should merge partial filter updates with existing filters', async () => {
-      await flushInitial();
+    it('should filter by priority client-side', async () => {
+      await flushInitial(ALL_TASKS);
 
       service.setFilters({ priority: TaskPriorityEnum.High });
-      TestBed.tick();
-      httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
-      await stabilize();
-
-      service.setFilters({ status: TaskStatusEnum.Done });
-      TestBed.tick();
-
-      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('priority')).toBe('high');
-      expect(req.request.params.get('status')).toBe('done');
-      req.flush(makeResponse());
-      await stabilize();
+      expect(service.tasks()).toHaveLength(1);
+      expect(service.tasks()[0].id).toBe('t2');
     });
 
-    it('should send search as q param', async () => {
-      await flushInitial();
+    it('should filter by assignee client-side', async () => {
+      await flushInitial(ALL_TASKS);
+
+      service.setFilters({ assignee: 'user-1' });
+      expect(service.tasks()).toHaveLength(2);
+      expect(service.tasks().map((t) => t.id)).toEqual(['t1', 't3']);
+    });
+
+    it('should filter by search (title) client-side', async () => {
+      await flushInitial(ALL_TASKS);
 
       service.setFilters({ search: 'urgent' });
-      TestBed.tick();
-
-      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('q')).toBe('urgent');
-      req.flush(makeResponse());
-      await stabilize();
+      expect(service.tasks()).toHaveLength(1);
+      expect(service.tasks()[0].id).toBe('t2');
     });
 
-    it('should send assignee param', async () => {
-      await flushInitial();
+    it('should filter by search (description) client-side', async () => {
+      await flushInitial(ALL_TASKS);
 
-      service.setFilters({ assignee: 'user-5' });
-      TestBed.tick();
-
-      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.get('assignee')).toBe('user-5');
-      req.flush(makeResponse());
-      await stabilize();
+      service.setFilters({ search: 'documentation' });
+      expect(service.tasks()).toHaveLength(1);
+      expect(service.tasks()[0].id).toBe('t3');
     });
 
-    it('should not send params for null/empty filter values', async () => {
-      await flushInitial();
+    it('should combine multiple filters', async () => {
+      await flushInitial(ALL_TASKS);
 
-      service.setFilters({ status: null, search: '' });
-      TestBed.tick();
+      service.setFilters({ assignee: 'user-1', priority: TaskPriorityEnum.Low });
+      expect(service.tasks()).toHaveLength(1);
+      expect(service.tasks()[0].id).toBe('t1');
+    });
 
-      const req = httpMock.expectOne((r) => r.url === '/api/tasks');
-      expect(req.request.params.has('status')).toBe(false);
-      expect(req.request.params.has('q')).toBe(false);
-      req.flush(makeResponse());
-      await stabilize();
+    it('should return all tasks when no filters are set', async () => {
+      await flushInitial(ALL_TASKS);
+      expect(service.tasks()).toHaveLength(3);
+    });
+
+    it('should not trigger a new HTTP request when filters change', async () => {
+      await flushInitial(ALL_TASKS);
+
+      service.setFilters({ priority: TaskPriorityEnum.High });
+      // No new request expected — httpMock.verify() in afterEach will catch leaks
+      expect(service.tasks()).toHaveLength(1);
     });
 
     it('should reset filters to initial values', async () => {
-      await flushInitial();
+      await flushInitial(ALL_TASKS);
 
-      service.setFilters({ status: TaskStatusEnum.Done, priority: TaskPriorityEnum.Low });
-      TestBed.tick();
-      httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
-      await stabilize();
+      service.setFilters({ priority: TaskPriorityEnum.Low, assignee: 'user-1' });
+      expect(service.tasks()).toHaveLength(1);
 
       service.resetFilters();
       expect(service.filters()).toEqual(INITIAL_FILTERS);
-      TestBed.tick();
-      httpMock.expectOne((r) => r.url === '/api/tasks').flush(makeResponse());
-      await stabilize();
+      expect(service.tasks()).toHaveLength(3);
+    });
+
+    it('should be case-insensitive for search', async () => {
+      await flushInitial(ALL_TASKS);
+
+      service.setFilters({ search: 'BUY' });
+      expect(service.tasks()).toHaveLength(1);
+      expect(service.tasks()[0].id).toBe('t1');
+    });
+  });
+
+  describe('allTasks', () => {
+    it('should always return all tasks regardless of filters', async () => {
+      await flushInitial(ALL_TASKS);
+
+      service.setFilters({ priority: TaskPriorityEnum.High });
+      expect(service.allTasks()).toHaveLength(3);
+      expect(service.tasks()).toHaveLength(1);
     });
   });
 
@@ -211,7 +236,7 @@ describe('TaskService', () => {
 
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse([created]));
-      await stabilize();
+      await TestBed.inject(ApplicationRef).whenStable();
     });
   });
 
@@ -232,7 +257,7 @@ describe('TaskService', () => {
 
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse([updated]));
-      await stabilize();
+      await TestBed.inject(ApplicationRef).whenStable();
     });
   });
 
@@ -247,7 +272,7 @@ describe('TaskService', () => {
 
       TestBed.tick();
       httpMock.expectOne('/api/tasks').flush(makeResponse());
-      await stabilize();
+      await TestBed.inject(ApplicationRef).whenStable();
     });
   });
 });
