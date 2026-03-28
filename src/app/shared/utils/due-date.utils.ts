@@ -7,6 +7,11 @@ export interface DueDateInfo {
   labelParams?: Record<string, number>;
 }
 
+/**
+ * Returns the number of whole calendar days from `from` to `to`.
+ * Both dates are normalized to midnight so a task due "today at 23:59"
+ * and one due "today at 00:01" both read as 0 days away.
+ */
 function daysBetween(from: Date, to: Date): number {
   const a = new Date(from);
   const b = new Date(to);
@@ -15,6 +20,12 @@ function daysBetween(from: Date, to: Date): number {
   return Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24));
 }
 
+/**
+ * Resolves a human-readable due-date label for a task card.
+ * Thresholds: same day → "today", 1 day, < 7 days → exact count,
+ * < 14 days → "one week", otherwise → week count.
+ * Completed tasks show how long ago they were finished instead.
+ */
 export function getDueDateInfo(task: Task): DueDateInfo {
   const today = new Date();
 

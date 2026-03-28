@@ -5,7 +5,7 @@ module.exports = {
     'scope-enum': [
       2,
       'always',
-      ['core', 'ci', 'shared', 'layout', 'dashboard', 'ui', 'tasks', 'analytics'],
+      ['core', 'ci', 'shared', 'layout', 'dashboard', 'ui', 'tasks', 'analytics', 'documentation'],
     ],
     'scope-empty': [2, 'never'],
     'body-leading-blank': [2, 'never'],

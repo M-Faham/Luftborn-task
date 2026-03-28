@@ -36,6 +36,10 @@ export class AnalyticsService {
     };
   });
 
+  /**
+   * Groups tasks by assignee name, sorts by count descending, and caps at the top 6
+   * so the bar chart stays readable. Tasks with no assignee are grouped as "Unassigned".
+   */
   readonly byAssignee = computed<ChartDataset>(() => {
     const tasks = this.tasks();
     const counts = new Map<string, number>();

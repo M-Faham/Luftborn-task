@@ -6,6 +6,7 @@ export class NewTaskService {
 
   requestNewTask(): void {
     this.trigger.set(true);
+    // Reseting the trigger after small time
     setTimeout(() => {
       this.trigger.set(false);
     }, 100);

@@ -90,6 +90,11 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
+  /**
+   * Normalizes raw form values before closing the dialog:
+   * - `dueDate` is converted to a YYYY-MM-DD string
+   * - `tags` is split on commas and trimmed so the user can type "bug, urgent" naturally
+   */
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

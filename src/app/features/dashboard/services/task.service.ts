@@ -19,6 +19,11 @@ export class TaskService {
 
   readonly allTasks = computed(() => this.tasksResource.value()?.tasks ?? []);
 
+  /**
+   * All filtering happens here on the client — no query params are sent to the API.
+   * The API always returns the full task list; this computed re-runs whenever
+   * the raw data or the active filters change.
+   */
   readonly tasks = computed(() => {
     let result = this.allTasks();
     const f = this._filters();
