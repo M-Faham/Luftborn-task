@@ -1,10 +1,5 @@
-<!-- Mobile backdrop -->
 @if (menuService.isOpen()) {
-  <div
-    class="fixed inset-0 bg-black/40 z-10 md:hidden"
-    (click)="menuService.close()"
-    aria-hidden="true"
-  ></div>
+  <div class="fixed inset-0 md:hidden" (click)="menuService.close()" aria-hidden="true"></div>
 }
 
 <aside
