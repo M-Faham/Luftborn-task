@@ -30,3 +30,7 @@ body {
   color: #111827;
   margin: 0;
 }
+
+.content-height {
+  height: calc(100vh - 64px);
+}

@@ -9,7 +9,7 @@
   (newTask)="onCreateTask()"
 />
 
-<div class="tasks-grid">
+<div class="flex gap-6 overflow-x-auto mt-6">
   @if (showTodo()) {
     <lb-tasks-list
       [tasks]="todoTasks()"
