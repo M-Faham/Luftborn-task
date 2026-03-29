@@ -1,12 +1,21 @@
-<div class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4 2xl:grid-cols-4 xl:gap-6 p-5">
-  @if (isLoading()) {
-    <p-skeleton class="h-40!"></p-skeleton>
-    <p-skeleton class="h-40!"></p-skeleton>
-    <p-skeleton class="h-40!"></p-skeleton>
-    <p-skeleton class="h-40!"></p-skeleton>
-  } @else {
-    @for (stat of statistics(); track stat.id) {
-      <lb-stats-card [stat]="stat" />
-    }
-  }
-</div>
+<p-carousel
+  #statsCarousel
+  [value]="isLoading() ? skeletonItems : statistics()"
+  [numVisible]="4"
+  [numScroll]="1"
+  [responsiveOptions]="responsiveOptions"
+  [showNavigators]="false"
+  [showIndicators]="statsCarousel.numVisible < statistics().length"
+  [circular]="true"
+  class="px-5 py-3"
+>
+  <ng-template #item let-stat>
+    <div class="px-2">
+      @if (isLoading()) {
+        <p-skeleton class="h-40!"></p-skeleton>
+      } @else {
+        <lb-stats-card [stat]="stat" />
+      }
+    </div>
+  </ng-template>
+</p-carousel>

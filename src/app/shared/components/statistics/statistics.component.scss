@@ -2,3 +2,8 @@ p-skeleton {
   width: 368px;
   height: 165px;
 }
+
+::ng-deep .p-carousel-viewport {
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
