@@ -17,11 +17,7 @@ export class LoadingService {
     this._loading.set(true);
   }
 
-  /**
-   * Decrements the active request counter and hides the spinner once it reaches zero.
-   * The `Math.max` guard prevents the counter from going negative if `hide` is somehow
-   * called more times than `show` (e.g. an error path fires finalize twice).
-   */
+  // Math.max keeps the counter from going negativeif `hide` is somehow called more time
   hide(): void {
     this.activeRequests = Math.max(0, this.activeRequests - 1);
     if (this.activeRequests === 0) {

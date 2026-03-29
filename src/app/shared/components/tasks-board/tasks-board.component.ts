@@ -188,11 +188,7 @@ export class TasksBoardComponent {
     });
   }
 
-  /**
-   * Returns the status one step before or after `current` in the Kanban order.
-   * Pass `1` to move forward (Todo → InProgress → Done) or `-1` to move backward.
-   * Returns `null` when already at the first or last status so callers can skip the update.
-   */
+  // Move STATUS_ORDER by `direction` (+1 forward, -1 backward). Returns null if can't move further.
   private getAdjacentStatus(current: TaskStatusEnum, direction: 1 | -1): TaskStatusEnum | null {
     const currentIndex = STATUS_ORDER.indexOf(current);
     const nextIndex = currentIndex + direction;

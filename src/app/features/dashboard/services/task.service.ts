@@ -19,11 +19,15 @@ export class TaskService {
 
   readonly allTasks = computed(() => this.tasksResource.value()?.tasks ?? []);
 
-  /**
-   * All filtering happens here on the client — no query params are sent to the API.
-   * The API always returns the full task list; this computed re-runs whenever
-   * the raw data or the active filters change.
-   */
+  readonly totalCount = computed(() => this.tasksResource.value()?.meta?.totalCount ?? 0);
+
+  readonly isLoading = computed(() => this.tasksResource.isLoading());
+
+  readonly tasksResource = httpResource<TasksResponse>(() => this.baseUrl);
+
+  readonly error = this.tasksResource.error;
+
+  // client side  filters as the API always returns all tasks
   readonly tasks = computed(() => {
     let result = this.allTasks();
     const f = this._filters();
@@ -37,14 +41,6 @@ export class TaskService {
     }
     return result;
   });
-
-  readonly totalCount = computed(() => this.tasksResource.value()?.meta?.totalCount ?? 0);
-
-  readonly isLoading = computed(() => this.tasksResource.isLoading());
-
-  readonly tasksResource = httpResource<TasksResponse>(() => this.baseUrl);
-
-  readonly error = this.tasksResource.error;
 
   constructor() {
     this.filters = this._filters.asReadonly();

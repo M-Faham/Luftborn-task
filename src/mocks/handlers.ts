@@ -5,16 +5,14 @@ import { MOCK_STATISTICS } from './data/statistics';
 import { MOCK_TASKS } from './data/tasks';
 import { MOCK_USERS } from './data/users';
 
-/** Simulates realistic network latency. GET requests are faster than mutations. */
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const READ_DELAY = 2000;
 const WRITE_DELAY = 2000;
 
-// In-memory store so POST/PATCH mutations persist during the session
+// in-memory store — mutations persist for the lifetime of the page
 let tasks = [...MOCK_TASKS.tasks];
 
 export const handlers = [
-  // GET /api/tasks — list all tasks
   http.get('/api/tasks', async () => {
     await delay(READ_DELAY);
     return HttpResponse.json({
@@ -26,7 +24,6 @@ export const handlers = [
     });
   }),
 
-  // GET /api/tasks/:id — single task
   http.get('/api/tasks/:id', async ({ params }) => {
     await delay(READ_DELAY);
     const task = tasks.find((t) => t.id === params['id']);
@@ -36,7 +33,6 @@ export const handlers = [
     return HttpResponse.json(task);
   }),
 
-  // POST /api/tasks — create task
   http.post('/api/tasks', async ({ request }) => {
     await delay(WRITE_DELAY);
     const body = (await request.json()) as Partial<Task>;
@@ -63,7 +59,6 @@ export const handlers = [
     return HttpResponse.json(newTask, { status: 201 });
   }),
 
-  // PATCH /api/tasks/:id — update task
   http.patch('/api/tasks/:id', async ({ params, request }) => {
     await delay(WRITE_DELAY);
     const body = (await request.json()) as Partial<Task>;
@@ -86,13 +81,11 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  // GET /api/statistics
   http.get('/api/statistics', async () => {
     await delay(READ_DELAY);
     return HttpResponse.json(MOCK_STATISTICS);
   }),
 
-  // GET /api/users — list all assignable users
   http.get('/api/users', async () => {
     await delay(READ_DELAY);
     return HttpResponse.json(MOCK_USERS);

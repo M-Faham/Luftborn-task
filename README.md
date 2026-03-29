@@ -14,6 +14,7 @@ A production-ready task management app built with Angular 21, demonstrating mode
 - **Vitest** — Unit testing
 - **MSW (Mock Service Worker)** — API mocking \*\*"AI Generated"
 - **@ngx-translate** — i18n (English + Arabic/RTL)
+- **Husky and Prettier** — Used husky as a precommit/prepush to check linting, errors, test results and test code coverage ubove 80%
 
 ---
 
@@ -91,6 +92,7 @@ npm run build      # production build
 - HTTP response caching (30s TTL) via interceptor
 - `trackBy` functions on all `@for` loops
 - Mock Service Worker intercepts requests in the browser — no real network calls in development
+- Tested with Lighthouse with score 90%
 
 ---
 
