@@ -5,7 +5,7 @@
   padding: 17px;
   cursor: pointer;
 
-  width: 490px;
+  width: var(--task-width, 490px);
   height: 220px;
   display: flex;
   flex-direction: column;

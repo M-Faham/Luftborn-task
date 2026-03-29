@@ -6,6 +6,10 @@
   min-width: 0;
   padding: 16px;
 
+  p-skeleton.task-list__skelton {
+    width: var(--task-width, 490px) !important;
+  }
+
   .tasks_list_header {
     border-bottom: 2px solid var(--color-grey-88, #e0e0e0);
   }

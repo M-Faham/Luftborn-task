@@ -2,15 +2,19 @@
   <div class="flex justify-between tasks_list_header pb-2.5 items-center">
     <h3 class="tasks_list_title">{{ 'tasks.' + status() | translate }}</h3>
 
-    <div class="tasks_count">
-      {{ tasks().length }}
-    </div>
+    @if (isLoading()) {
+      <p-skeleton shape="circle" class="w-7! h-7!" />
+    } @else {
+      <div class="tasks_count">
+        {{ tasks().length }}
+      </div>
+    }
   </div>
 
   @if (isLoading()) {
-    <p-skeleton class="h-40!"></p-skeleton>
-    <p-skeleton class="h-40!"></p-skeleton>
-    <p-skeleton class="h-40!"></p-skeleton>
+    <p-skeleton class="task-list__skelton h-40!"></p-skeleton>
+    <p-skeleton class="task-list__skelton h-40!"></p-skeleton>
+    <p-skeleton class="task-list__skelton h-40!"></p-skeleton>
   } @else {
     @for (task of tasks(); track task.id) {
       <lb-task-card
